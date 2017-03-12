@@ -7,6 +7,7 @@ package rest;
 
 import Model.User;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -49,6 +50,7 @@ public class KwetterREST {
 
     @GET
     @Path("/user/createUser/{name}/{emailAddress}/{password}")
+    @RolesAllowed("User")
     @Produces(MediaType.APPLICATION_JSON)
     public User createUser(@PathParam("name") String name, @PathParam("emailAddress") String emailAddress, @PathParam("password") String password) {
         // implement error handling
@@ -59,8 +61,9 @@ public class KwetterREST {
     
     @GET
     @Path("/moderator/removeUser/{userId}")
+    @RolesAllowed("Moderator")
     @Produces(MediaType.APPLICATION_JSON)
-    public String createUser(@PathParam("userId") Long userId){
+    public String removeUser(@PathParam("userId") Long userId){
         // implement error handling
         // implement boolean return to verify succes
         userService.remove(userId);
