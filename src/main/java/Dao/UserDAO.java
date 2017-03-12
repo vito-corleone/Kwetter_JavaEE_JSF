@@ -18,6 +18,8 @@ public interface UserDAO {
     void edit(User user);
 
     User find(Long userId);
+    
+    User find(String emailAddress);
 
-    void remove(Long userId);
+    void remove(Long userId);    
 }

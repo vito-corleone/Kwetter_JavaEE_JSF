@@ -5,9 +5,16 @@
  */
 package Model;
 
+import com.google.common.hash.Hashing;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,8 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "User.getAll", query = "select u from User as u")
-    ,
+    @NamedQuery(name = "User.getAll", query = "select u from User as u"),
+    @NamedQuery(name = "User.findByEmailAddress", query = "select u from User as u where u.emailAddress = :emailAddress"),
     @NamedQuery(name = "User.findByID", query = "select u from User as u where u.id = :userId")
 })
 public class User implements Serializable {
@@ -54,16 +61,17 @@ public class User implements Serializable {
     private String password;
 
     // empty constructor
-    public User(){
+    public User() {
 
     }
 
     public User(String name, String emailAddres, String password) {
         this.name = name;
         this.emailAddress = emailAddres;
-        this.password = password;
+        this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         peopleThatIFollow = new ArrayList<>();
         peopleThatFollowMe = new ArrayList<>();
+        this.userRole = "User";
     }
 
     // getters and setters
@@ -136,7 +144,7 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
     }
 
     public Long getId() {
@@ -234,4 +242,6 @@ public class User implements Serializable {
         }
         return false;
     }
+
+
 }

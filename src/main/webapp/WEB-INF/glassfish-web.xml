@@ -4,7 +4,7 @@
     <context-root>/Kwetter</context-root>
     <security-role-mapping>
         <role-name>User</role-name>
-        <group-name>DefaultUsers</group-name>
+        <group-name>User</group-name>
     </security-role-mapping>
     <security-role-mapping>
         <role-name>Moderator</role-name>
@@ -13,7 +13,7 @@
     <context-root>/Kwetter/webresources/rest</context-root>
     <security-role-mapping>
         <role-name>User</role-name>
-        <group-name>DefaultUsers</group-name>
+        <group-name>User</group-name>
     </security-role-mapping>
     <security-role-mapping>
         <role-name>Moderator</role-name>

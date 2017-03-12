@@ -35,7 +35,6 @@ import service.UserService;
 public class KwetterREST {
 
     //private ModelMapper modelMapper = new ModelMapper();
-    
     @Inject
     private UserService userService;
 
@@ -48,28 +47,35 @@ public class KwetterREST {
     public KwetterREST() {
     }
 
+    // PUBLIC METHODS - NO AUTHORIZATION
     @GET
-    @Path("/user/createUser/{name}/{emailAddress}/{password}")
-    @RolesAllowed("User")
+    @Path("/createUser/{name}/{emailAddress}/{password}")
     @Produces(MediaType.APPLICATION_JSON)
     public User createUser(@PathParam("name") String name, @PathParam("emailAddress") String emailAddress, @PathParam("password") String password) {
         // implement error handling
-        User newUser = new User(name,emailAddress,password);
+        User newUser = new User(name, emailAddress, password);
         userService.create(newUser);
         return newUser;
     }
-    
+
+    // PUBLIC METHODS - AUTHORIZATION -> USER-ROLE
     @GET
-    @Path("/moderator/removeUser/{userId}")
-    @RolesAllowed("Moderator")
+    @Path("/user/addToFollow/{userId}/{friendsEmailAddress}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String removeUser(@PathParam("userId") Long userId){
-        // implement error handling
-        // implement boolean return to verify succes
-        userService.remove(userId);
-        return "Succes";
+    public String addToFollow(@PathParam("userId") Long userId, @PathParam("friendsEmailAddress") String friendsEmailAddress) {
+        User user = userService.find(userId);
+        if(user != null){
+            User friend = userService.find(friendsEmailAddress);
+            if(friend != null){
+                user.addUserThatIWantToFollow(friend);
+                return "Succes";
+            }
+            return "Couldn't find friend";
+        }
+        return "Couldn't find user";
     }
 
+    // PUBLIC METHODS - AUTHORIZATION -> MODERATOR-ROLE
     @GET
     @Path("/moderator/getUser/{userId}")
     //@RolesAllowed("Moderator")
@@ -77,6 +83,32 @@ public class KwetterREST {
     public User getUser(@PathParam("userId") Long userId) {
         return userService.find(userId);
     }
+
+    @GET
+    @Path("/moderator/removeUser/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String removeUser(@PathParam("userId") Long userId) {
+        // implement error handling
+        // implement boolean return to verify succes
+        userService.remove(userId);
+        return "Succes";
+    }
+
+    @GET
+    @Path("/moderator/editUserRole/{userId}/{userRole}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String editUserRole(@PathParam("userId") Long userId, @PathParam("userRole") String userRole) {
+        // implement error handling
+        // implement boolean return to verify succes
+        User getUser = userService.find(userId);
+        if (getUser != null) {
+            getUser.setUserRole("Moderator");
+            userService.edit(getUser);
+            return "Succes";
+        }
+        return "Failed";
+    }
+
 //
 //    @GET
 //    @Path("/user/createUser/{name}/{emailAddress}/{password}")

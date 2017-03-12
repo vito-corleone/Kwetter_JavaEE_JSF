@@ -59,6 +59,13 @@ public class UserService {
         }
         return null;
     }
+    
+        public User find(String emailAddresss) {
+        if (!emailAddresss.isEmpty()) {
+            return userDAO.find(emailAddresss);
+        }
+        return null;
+    }
 
     public void remove(Long id) {
         if (id > 0) {

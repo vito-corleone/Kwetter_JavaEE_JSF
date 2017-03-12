@@ -23,39 +23,20 @@ public class UserDAO_JPA implements UserDAO {
     private EntityManager em;
 
     public UserDAO_JPA() {
-        
+
     }
 
 //    public UserDAO_JPA(EntityManager em) {
 //        this.em = em;
 //    }
-
     @Override
     public void create(User user) {
-//        if (!em.getTransaction().isActive()) {
-//            em.getTransaction().begin();
-//        }
-//        try {
-            em.persist(user);
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            em.getTransaction().rollback();
-//        }
+        em.persist(user);
     }
 
     @Override
     public void edit(User user) {
-//        if (!em.getTransaction().isActive()) {
-//            em.getTransaction().begin();
-//        }
-//        try {
-            em.merge(user);
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            em.getTransaction().rollback();
-//        }
+        em.merge(user);
     }
 
     @Override
@@ -72,16 +53,18 @@ public class UserDAO_JPA implements UserDAO {
 
     @Override
     public void remove(Long id) {
-//        if (!em.getTransaction().isActive()) {
-//            em.getTransaction().begin();
-//        }
-//        try {
-            User u = em.find(User.class, id);
-            em.remove(u);
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            em.getTransaction().rollback();
-//        }
+        User u = em.find(User.class, id);
+        em.remove(u);
     }
+
+    @Override
+    public User find(String emailAddress) {
+        Query q = em.createNamedQuery("User.findByEmailAddress", User.class);
+        q.setMaxResults(1);
+        q.setParameter("emailAddress", emailAddress);
+        User foundUser = (User) q.getSingleResult();
+        if (foundUser == null) {
+            return null;
+        }
+        return foundUser;    }
 }
