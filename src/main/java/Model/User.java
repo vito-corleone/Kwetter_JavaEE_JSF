@@ -16,11 +16,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Vito Corleone
  */
+@XmlRootElement
 @Entity
 @NamedQueries({
     @NamedQuery(name = "User.getAll", query = "select u from User as u")

@@ -18,11 +18,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Vito Corleone
  */
+@XmlRootElement
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Posting.getAll", query = "select p from Posting as p"),

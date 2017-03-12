@@ -34,6 +34,7 @@ import service.UserService;
 public class KwetterREST {
 
     //private ModelMapper modelMapper = new ModelMapper();
+    
     @Inject
     private UserService userService;
 
@@ -161,21 +162,21 @@ public class KwetterREST {
 //     *
 //     * @return an instance of java.lang.String
 //     */
-//    @GET
-//    @Produces(MediaType.TEXT_HTML)
-//    public String getHtml() {
-//        return "<html lang=\"en\"><body><h1>Hello, Vito!!</body></h1></html>";
-//    }
-//
-//    /**
-//     * PUT method for updating or creating an instance of KwetterREST
-//     *
-//     * @param content representation for the resource
-//     */
-//    @PUT
-//    @Consumes(MediaType.TEXT_HTML)
-//    public void putHtml(String content) {
-//    }
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public String getHtml() {
+        return "<html lang=\"en\"><body><h1>Hello, Vito!!</body></h1></html>";
+    }
+
+    /**
+     * PUT method for updating or creating an instance of KwetterREST
+     *
+     * @param content representation for the resource
+     */
+    @PUT
+    @Consumes(MediaType.TEXT_HTML)
+    public void putHtml(String content) {
+    }
 //
 //    //  convert entity to Data Transfer Object (DTO)    
 //    private CommentDTO convertCommentToDto(Comment123 comment) {

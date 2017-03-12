@@ -31,7 +31,6 @@ public class UserService {
 //    private final EntityManager em;
 
     public UserService() {
-        //userDAO = new UserDAO_JPA(em);
     }
 
     @Inject
@@ -40,6 +39,8 @@ public class UserService {
 //    public UserService() {
 //        userDAO = new UserDAO_JPA(emf.createEntityManager());
 //    }
+    
+    
     public void create(User user) {
         if (user != null) {
             userDAO.create(user);
