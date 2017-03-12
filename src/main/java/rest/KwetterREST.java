@@ -70,12 +70,13 @@ public class KwetterREST {
         return "Succes";
     }
 
-//    @GET
-//    @Path("/user/getUser/{emailAddress}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public UserDTO getUser(@PathParam("emailAddress") String emailAddress) {
-//        return convertUserToDto(kwetterService.getUser(emailAddress));
-//    }
+    @GET
+    @Path("/moderator/getUser/{userId}")
+    //@RolesAllowed("Moderator")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("userId") Long userId) {
+        return userService.find(userId);
+    }
 //
 //    @GET
 //    @Path("/user/createUser/{name}/{emailAddress}/{password}")
