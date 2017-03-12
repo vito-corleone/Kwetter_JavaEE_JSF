@@ -6,6 +6,7 @@
 package Dao;
 
 import Model.Posting;
+import java.util.List;
 
 
 /**
@@ -19,6 +20,8 @@ public interface PostingDAO {
     void edit(Posting posting);
 
     Posting find(Long postingId);
+    
+    List<Posting> findPostings(String author);
 
     void remove(Long postingId);
 }

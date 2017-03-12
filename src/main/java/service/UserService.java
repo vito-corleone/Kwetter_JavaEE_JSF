@@ -6,15 +6,9 @@
 package service;
 
 import Dao.UserDAO;
-import Dao.UserDAO_JPA;
 import Model.User;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -23,23 +17,11 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class UserService {
 
-//    @PersistenceContext(unitName = "KwetterPU_Enterprise")
-//    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("KwetterPU_Enterprise");
-//    //private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("KwetterPU_Enterprise");
-//
-//    //@PersistenceContext(unitName = "KwetterPU_Enterprise")
-//    private final EntityManager em;
-
     public UserService() {
     }
 
     @Inject
-    private UserDAO userDAO;
-
-//    public UserService() {
-//        userDAO = new UserDAO_JPA(emf.createEntityManager());
-//    }
-    
+    private UserDAO userDAO;  
     
     public void create(User user) {
         if (user != null) {

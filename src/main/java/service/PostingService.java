@@ -6,25 +6,24 @@
 package service;
 
 import Dao.PostingDAO;
-import Dao.PostingDAO_JPA;
-import Dao.UserDAO;
-import Dao.UserDAO_JPA;
 import Model.Posting;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 /**
  *
  * @author Vito Corleone
  */
+@Stateless
 public class PostingService {
 
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("KwetterPU_Enterprise");
+    @Inject
     private PostingDAO postingDAO;
-
-    public PostingService() {
-        postingDAO = new PostingDAO_JPA(emf.createEntityManager());
+    
+    public PostingService(){
+        
     }
+    
 
     public void create(Posting posting) {
         if (posting != null) {

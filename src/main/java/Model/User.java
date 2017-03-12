@@ -7,24 +7,23 @@ package Model;
 
 import com.google.common.hash.Hashing;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,8 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "User.getAll", query = "select u from User as u"),
-    @NamedQuery(name = "User.findByEmailAddress", query = "select u from User as u where u.emailAddress = :emailAddress"),
+    @NamedQuery(name = "User.getAll", query = "select u from User as u")
+    ,
+    @NamedQuery(name = "User.findByEmailAddress", query = "select u from User as u where u.emailAddress = :emailAddress")
+    ,
     @NamedQuery(name = "User.findByID", query = "select u from User as u where u.id = :userId")
 })
 public class User implements Serializable {
@@ -46,10 +47,10 @@ public class User implements Serializable {
     private Long id;
 
     // properties
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "peopleThatFollowMe")
     private List<User> peopleThatIFollow;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(cascade = {CascadeType.ALL})
     private List<User> peopleThatFollowMe;
 
     private String userRole;
@@ -57,7 +58,10 @@ public class User implements Serializable {
     private String website;
     private String location;
     private String name;
+
+    @Column(unique = true)
     private String emailAddress;
+
     private String password;
 
     // empty constructor
@@ -242,6 +246,5 @@ public class User implements Serializable {
         }
         return false;
     }
-
 
 }

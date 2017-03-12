@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Posting.getAll", query = "select p from Posting as p"),
+    @NamedQuery(name = "Posting.findByAuthor", query = "select p from Posting as p where p.author = :author"),
     @NamedQuery(name = "Posting.findBypostingId", query = "select p from Posting as p where p.id = :postingId")
 })
 public class Posting implements Serializable {

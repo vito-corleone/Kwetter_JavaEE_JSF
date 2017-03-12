@@ -26,9 +26,6 @@ public class UserDAO_JPA implements UserDAO {
 
     }
 
-//    public UserDAO_JPA(EntityManager em) {
-//        this.em = em;
-//    }
     @Override
     public void create(User user) {
         em.persist(user);

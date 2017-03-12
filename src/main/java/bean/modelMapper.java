@@ -5,14 +5,14 @@
  */
 package bean;
 
+import javax.ejb.Stateless;
+
 /**
  *
  * @author Vito Corleone
  */
-//public class modelMapper {
-//
-//    public modelMapper() {
-//    }
-//
-//    return new 
-//}
+public class modelMapper {
+
+    public modelMapper() {
+    }
+}

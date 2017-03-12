@@ -8,45 +8,31 @@ package Dao;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import Model.Posting;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Vito Corleone
  */
+@Stateless
 public class PostingDAO_JPA implements PostingDAO {
 
-    private final EntityManager em;
+    @PersistenceContext(unitName = "KwetterPU_Enterprise")
+    private EntityManager em;
 
-    public PostingDAO_JPA(EntityManager em) {
-        this.em = em;
+    public PostingDAO_JPA() {
     }
 
     @Override
     public void create(Posting posting) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-        try {
-            em.persist(posting);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        }
+        em.persist(posting);
     }
 
     @Override
     public void edit(Posting posting) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-        try {
-            em.merge(posting);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        }
+        em.merge(posting);
     }
 
     @Override
@@ -63,16 +49,17 @@ public class PostingDAO_JPA implements PostingDAO {
 
     @Override
     public void remove(Long postingId) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-        try {
-            Posting u = em.find(Posting.class, postingId);
+        Posting u = em.find(Posting.class, postingId);
+        if (u != null) {
             em.remove(u);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
         }
+    }
+
+    @Override
+    public List<Posting> findPostings(String author) {
+        Query q = em.createNamedQuery("Posting.findByAuthor", Posting.class);
+        q.setParameter("author", author);
+        List<Posting> foundPostings = (List<Posting>) q.getResultList();
+        return foundPostings;
     }
 }
