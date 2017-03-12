@@ -56,6 +56,16 @@ public class KwetterREST {
         userService.create(newUser);
         return newUser;
     }
+    
+    @GET
+    @Path("/moderator/removeUser/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String createUser(@PathParam("userId") Long userId){
+        // implement error handling
+        // implement boolean return to verify succes
+        userService.remove(userId);
+        return "Succes";
+    }
 
 //    @GET
 //    @Path("/user/getUser/{emailAddress}")
