@@ -1,52 +1,61 @@
-///*
-// * To change this license header, choose License Headers in Project Properties.
-// * To change this template file, choose Tools | Templates
-// * and open the template in the editor.
-// */
-//package rest;
-//
-//import dto.CommentDTO;
-//import dto.PostingDTO;
-//import dto.UserDTO;
-//import dto.UserDetailsDTO;
-//import java.util.List;
-//import javax.inject.Inject;
-//import javax.ws.rs.core.Context;
-//import javax.ws.rs.core.UriInfo;
-//import javax.ws.rs.Produces;
-//import javax.ws.rs.Consumes;
-//import javax.ws.rs.GET;
-//import javax.ws.rs.NotFoundException;
-//import javax.ws.rs.Path;
-//import javax.ws.rs.PUT;
-//import javax.ws.rs.PathParam;
-//import javax.ws.rs.WebApplicationException;
-//import javax.ws.rs.core.MediaType;
-//import javax.ws.rs.core.Response;
-//import javax.xml.ws.WebServiceException;
-//
-//import org.modelmapper.ModelMapper;
-//
-///**
-// * REST Web Service
-// *
-// * @author Vito Corleone
-// */
-//@Path("/rest")
-//public class KwetterREST {
-//
-//    private KwetterService kwetterService = new KwetterService();
-//    private ModelMapper modelMapper = new ModelMapper();
-//
-//    @Context
-//    private UriInfo context;
-//
-//    /**
-//     * Creates a new instance of GenericResource
-//     */
-//    public KwetterREST() {
-//    }
-//
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package rest;
+
+import Model.User;
+import java.util.List;
+import javax.inject.Inject;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
+import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.ws.WebServiceException;
+
+import org.modelmapper.ModelMapper;
+import service.UserService;
+
+/**
+ * REST Web Service
+ *
+ * @author Vito Corleone
+ */
+@Path("/rest")
+public class KwetterREST {
+
+    //private ModelMapper modelMapper = new ModelMapper();
+    @Inject
+    private UserService userService;
+
+    @Context
+    private UriInfo context;
+
+    /**
+     * Creates a new instance of GenericResource
+     */
+    public KwetterREST() {
+    }
+
+    @GET
+    @Path("/user/createUser/{name}/{emailAddress}/{password}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User createUser(@PathParam("name") String name, @PathParam("emailAddress") String emailAddress, @PathParam("password") String password) {
+        // implement error handling
+        User newUser = new User(name,emailAddress,password);
+        userService.create(newUser);
+        return newUser;
+    }
+
 //    @GET
 //    @Path("/user/getUser/{emailAddress}")
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -212,4 +221,4 @@
 //        UserDetails userDetailsEntity = modelMapper.map(userDetails, UserDetails.class);
 //        return userDetailsEntity;
 //    }
-//}
+}

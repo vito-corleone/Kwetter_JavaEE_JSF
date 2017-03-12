@@ -8,45 +8,54 @@ package Dao;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import Model.User;
+import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Vito Corleone
  */
+@Stateless
 public class UserDAO_JPA implements UserDAO {
 
-    private final EntityManager em;
+    @PersistenceContext(unitName = "KwetterPU_Enterprise")
+    private EntityManager em;
 
-    public UserDAO_JPA(EntityManager em) {
-        this.em = em;
+    public UserDAO_JPA() {
+        
     }
+
+//    public UserDAO_JPA(EntityManager em) {
+//        this.em = em;
+//    }
 
     @Override
     public void create(User user) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-        try {
+//        if (!em.getTransaction().isActive()) {
+//            em.getTransaction().begin();
+//        }
+//        try {
             em.persist(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        }
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            em.getTransaction().rollback();
+//        }
     }
 
     @Override
     public void edit(User user) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-        try {
+//        if (!em.getTransaction().isActive()) {
+//            em.getTransaction().begin();
+//        }
+//        try {
             em.merge(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        }
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            em.getTransaction().rollback();
+//        }
     }
 
     @Override
@@ -63,16 +72,16 @@ public class UserDAO_JPA implements UserDAO {
 
     @Override
     public void remove(Long id) {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-        try {
+//        if (!em.getTransaction().isActive()) {
+//            em.getTransaction().begin();
+//        }
+//        try {
             User u = em.find(User.class, id);
             em.remove(u);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        }
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            em.getTransaction().rollback();
+//        }
     }
 }
