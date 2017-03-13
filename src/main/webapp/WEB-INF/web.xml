@@ -56,13 +56,16 @@
             <role-name>Moderator</role-name>
         </auth-constraint>
     </security-constraint>
-
-    
-
-    
+        
     <!--    <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>-->
+   
+    <context-param>
+        <param-name>resteasy.providers</param-name>
+        <param-value>javax.ws.rs.ext.Provider.UserWebServiceExceptionHandler</param-value>
+    </context-param>
+
 </web-app>

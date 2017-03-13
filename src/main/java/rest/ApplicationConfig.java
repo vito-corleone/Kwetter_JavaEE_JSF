@@ -7,6 +7,7 @@ package rest;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
+import Exception.UserWebServiceExceptionHandler;
 
 /**
  *
@@ -34,6 +35,5 @@ public class ApplicationConfig extends Application {
         resources.add(org.codehaus.jackson.jaxrs.JsonMappingExceptionMapper.class);
         resources.add(org.codehaus.jackson.jaxrs.JsonParseExceptionMapper.class);
         resources.add(rest.KwetterREST.class);
-    }
-    
+    }    
 }

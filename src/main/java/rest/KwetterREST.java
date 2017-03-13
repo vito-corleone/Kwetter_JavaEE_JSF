@@ -5,6 +5,7 @@
  */
 package rest;
 
+import Exception.UserWebServiceException;
 import Model.Comment;
 import Model.Posting;
 import Model.User;
@@ -14,6 +15,7 @@ import dto.UserDTO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -61,7 +63,7 @@ public class KwetterREST {
     @GET
     @Path("/user/addToFollow/{userId}/{friendsEmailAddress}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String addToFollow(@PathParam("userId") Long userId, @PathParam("friendsEmailAddress") String friendsEmailAddress) {
+    public String addToFollow(@PathParam("userId") Long userId, @PathParam("friendsEmailAddress") String friendsEmailAddress) throws UserWebServiceException {
         User user = userService.find(userId);
         if (user != null) {
             User friend = userService.find(friendsEmailAddress);
@@ -71,31 +73,36 @@ public class KwetterREST {
                 userService.edit(friend);
                 return "Succes";
             }
-            return "Couldn't find friend";
+            throw new UserWebServiceException("Couldn't find friend");
         }
-        return "Couldn't find user";
+        throw new UserWebServiceException("Couldn't find user");
     }
 
     @GET
     @Path("/user/getPeopleIFollow/{userId}/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDTO> getPeopleIFollow(@PathParam("userId") Long userId) {
-        User foundUser = userService.find(userId);
-        if (foundUser != null) {
-            List<UserDTO> peopleThatIFollow = new ArrayList<>();
-            for (User user : foundUser.getThePeopleThatIFollow()) {
-                UserDTO dto = convertUserToDto(user);
-                peopleThatIFollow.add(dto);
+    public List<UserDTO> getPeopleIFollow(@PathParam("userId") Long userId) throws UserWebServiceException {
+        try {
+            User foundUser = userService.find(userId);
+            if (foundUser != null) {
+                List<UserDTO> peopleThatIFollow = new ArrayList<>();
+                for (User user : foundUser.getThePeopleThatIFollow()) {
+                    UserDTO dto = convertUserToDto(user);
+                    peopleThatIFollow.add(dto);
+                }
+                return peopleThatIFollow;
+            } else {
+                throw new UserWebServiceException("Cannot find user");
             }
-            return peopleThatIFollow;
+        } catch (Exception e) {
+            throw new UserWebServiceException("Oops.. something went wrong");
         }
-        return new ArrayList<UserDTO>();
     }
-    
-        @GET
+
+    @GET
     @Path("/user/getPeopleThatFollowMe/{userId}/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDTO> getPeopleThatFollowME(@PathParam("userId") Long userId) {
+    public List<UserDTO> getPeopleThatFollowME(@PathParam("userId") Long userId) throws UserWebServiceException {
         User foundUser = userService.find(userId);
         if (foundUser != null) {
             List<UserDTO> peopleThatFollowMe = new ArrayList<>();
@@ -104,8 +111,9 @@ public class KwetterREST {
                 peopleThatFollowMe.add(dto);
             }
             return peopleThatFollowMe;
+        } else {
+            throw new UserWebServiceException("Cannot find user");
         }
-        return new ArrayList<UserDTO>();
     }
 
     // lijst van eigen kweets
@@ -120,8 +128,7 @@ public class KwetterREST {
     @Path("/moderator/getUser/{userId}")
     //@RolesAllowed("Moderator")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("userId") Long userId
-    ) {
+    public User getUser(@PathParam("userId") Long userId) {
         return userService.find(userId);
     }
 
@@ -130,8 +137,7 @@ public class KwetterREST {
     @Produces(MediaType.APPLICATION_JSON)
     public String removeUser(@PathParam("userId") Long userId
     ) {
-        // implement error handling
-        // implement boolean return to verify succes
+
         userService.remove(userId);
         return "Succes";
     }
@@ -142,8 +148,6 @@ public class KwetterREST {
     public String editUserRole(@PathParam("userId") Long userId,
             @PathParam("userRole") String userRole
     ) {
-        // implement error handling
-        // implement boolean return to verify succes
         User getUser = userService.find(userId);
         if (getUser != null) {
             getUser.setUserRole("Moderator");
