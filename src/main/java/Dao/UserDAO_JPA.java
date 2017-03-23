@@ -26,6 +26,10 @@ public class UserDAO_JPA implements UserDAO {
 
     }
 
+    public UserDAO_JPA(EntityManager em) {
+        this.em = em;
+    }
+
     @Override
     public void create(User user) {
         em.persist(user);
@@ -42,10 +46,10 @@ public class UserDAO_JPA implements UserDAO {
         q.setMaxResults(1);
         q.setParameter("userId", userId);
         User foundUser = (User) q.getSingleResult();
-        if (foundUser == null) {
-            return null;
+        if (foundUser != null) {
+            return foundUser;
         }
-        return foundUser;
+        return null;
     }
 
     @Override
@@ -59,9 +63,12 @@ public class UserDAO_JPA implements UserDAO {
         Query q = em.createNamedQuery("User.findByEmailAddress", User.class);
         q.setMaxResults(1);
         q.setParameter("emailAddress", emailAddress);
-        User foundUser = (User) q.getSingleResult();
-        if (foundUser == null) {
+        try {
+            User foundUser = (User) q.getSingleResult();
+            return foundUser;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             return null;
         }
-        return foundUser;    }
+    }
 }

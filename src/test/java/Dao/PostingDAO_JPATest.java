@@ -25,10 +25,11 @@
 // */
 //public class PostingDAO_JPATest {
 //
-//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("KwetterPU_Enterprise");
+//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("KwetterPU_Local_Resource");
 //    EntityManager em;
 //    PostingDAO_JPA postingDAO;
 //    DatabaseCleaner databaseCleaner;
+//   
 //
 //    @BeforeClass
 //    public static void setUpClass() {

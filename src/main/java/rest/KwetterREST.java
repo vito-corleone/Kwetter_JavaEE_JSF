@@ -15,7 +15,6 @@ import dto.UserDTO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -24,8 +23,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.modelmapper.ModelMapper;
+import service.PostingService;
 import service.UserService;
 
 /**
@@ -38,6 +40,9 @@ public class KwetterREST {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private PostingService postingService;
 
     @Context
     private UriInfo context;
@@ -52,18 +57,19 @@ public class KwetterREST {
     @GET
     @Path("/createUser/{name}/{emailAddress}/{password}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User createUser(@PathParam("name") String name, @PathParam("emailAddress") String emailAddress, @PathParam("password") String password) {
+    public UserDTO createUser(@PathParam("name") String name, @PathParam("emailAddress") String emailAddress, @PathParam("password") String password) {
         // implement error handling
         User newUser = new User(name, emailAddress, password);
-        userService.create(newUser);
-        return newUser;
+        userService.create(newUser);        
+        return convertUserToDto(newUser);
     }
 
     // PUBLIC METHODS - AUTHORIZATION -> USER
+    // /user/*
     @GET
     @Path("/user/addToFollow/{userId}/{friendsEmailAddress}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String addToFollow(@PathParam("userId") Long userId, @PathParam("friendsEmailAddress") String friendsEmailAddress) throws UserWebServiceException {
+    public String addToFollow(@PathParam("userId") Long userId, @PathParam("friendsEmailAddress") String friendsEmailAddress) throws WebApplicationException{
         User user = userService.find(userId);
         if (user != null) {
             User friend = userService.find(friendsEmailAddress);
@@ -73,9 +79,11 @@ public class KwetterREST {
                 userService.edit(friend);
                 return "Succes";
             }
-            throw new UserWebServiceException("Couldn't find friend");
+            //catchException("Couldn't find friend");
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        throw new UserWebServiceException("Couldn't find user");
+        //catchException("Couldn't find user");
+        throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
 
     @GET
@@ -114,6 +122,39 @@ public class KwetterREST {
         } else {
             throw new UserWebServiceException("Cannot find user");
         }
+    }
+
+    // path /user/posting/
+    @GET
+    @Path("user/posting/createPosting/{userId}/{content}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PostingDTO createPosting(@PathParam("userId") Long userId, @PathParam("content") String content) {
+        User foundUser = userService.find(userId);
+        if (foundUser != null) {
+            Posting post = new Posting(foundUser.getName(), content);
+            postingService.create(post);
+            return convertPostingToDto(post);
+        }
+        return null;
+    }
+    
+    
+    
+
+    @GET
+    @Path("/user/comment/addComment/{userId}/{postingId}/{content}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CommentDTO addComment(@PathParam("userId") Long userId, @PathParam("postingId") Long postingId, @PathParam("content") String content) {
+        User foundUser = userService.find(userId);
+        if (foundUser != null) {
+            Posting post = postingService.find(postingId);
+            if(post != null){
+                Comment comment = post.addComment(foundUser.getName(), content);
+                postingService.edit(post);
+                return convertCommentToDto(comment);
+            }
+        }
+        return null;
     }
 
     // lijst van eigen kweets
@@ -307,6 +348,11 @@ public class KwetterREST {
     private User convertUserToEntity(UserDTO user) {
         User userEntity = modelMapper.map(user, User.class);
         return userEntity;
+    }
+    
+    
+    private Response catchException(String message){
+        return Response.status(Response.Status.CONFLICT).entity(message).build();
     }
 
 }

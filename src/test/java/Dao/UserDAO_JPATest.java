@@ -25,7 +25,7 @@
 // */
 //public class UserDAO_JPATest {
 //
-//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("KwetterPU_Enterprise");
+//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("KwetterPU_Local_Resource");
 //    EntityManager em;
 //    UserDAO_JPA userDAO;
 //    DatabaseCleaner databaseCleaner;

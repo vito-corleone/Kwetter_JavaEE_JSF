@@ -7,7 +7,7 @@ package rest;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
-import Exception.UserWebServiceExceptionHandler;
+//import Exception.UserWebServiceExceptionHandler;
 
 /**
  *
@@ -30,6 +30,12 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(com.fasterxml.jackson.jaxrs.base.JsonMappingExceptionMapper.class);
+        resources.add(com.fasterxml.jackson.jaxrs.base.JsonParseExceptionMapper.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JsonMappingExceptionMapper.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JsonParseExceptionMapper.class);
         resources.add(org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider.class);
         resources.add(org.codehaus.jackson.jaxrs.JacksonJsonProvider.class);
         resources.add(org.codehaus.jackson.jaxrs.JsonMappingExceptionMapper.class);

@@ -1,24 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-         version="3.1">
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
     
-    <!--LOGIN CONFIG-->    
+    <!-- SESSION CONFIG -->
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    
+    <!--LOGIN CONFIG-->
     <login-config>
-        <auth-method>BASIC</auth-method>
-        <realm-name>JDBCRealm</realm-name>        
+        <auth-method>FORM</auth-method>
+        <realm-name>JDBCRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <form-error-page>/faces/loginerror.xhtml</form-error-page>
+        </form-login-config>
     </login-config>
-    
     <!--    WEBPAGES-->
+    
+    <!-- ERROR PAGES -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/faces/403.xhtml</location>
+    </error-page>
+    
     <!--USER-->
+    <welcome-file-list>
+        <welcome-file>faces/default.xhtml</welcome-file>
+    </welcome-file-list>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>User Pages</web-resource-name>
-            <url-pattern>/User/*</url-pattern>            
+            <url-pattern>/faces/User/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>User</role-name>
@@ -28,19 +59,19 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Moderator Pages</web-resource-name>
-            <url-pattern>/Moderator/*</url-pattern>            
+            <url-pattern>/faces/Moderator/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Moderator</role-name>
         </auth-constraint>
     </security-constraint>
-    
     <!--    REST-API-->
+    
     <!--USER-->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>REST-API-User</web-resource-name>
-            <url-pattern>/webresources/rest/user/*</url-pattern>      
+            <url-pattern>/faces/webresources/rest/user/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>User</role-name>
@@ -50,22 +81,32 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>REST-API-Moderator</web-resource-name>
-            <url-pattern>/webresources/rest/moderator/*</url-pattern>      
+            <url-pattern>/faces/webresources/rest/moderator/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Moderator</role-name>
         </auth-constraint>
     </security-constraint>
-        
-    <!--    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>-->
-   
-    <context-param>
+    
+    <!--    START OF JSF PAGES-->
+    <!--    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/Faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>-->
+
+
+    
+    <!--    <context-param>
         <param-name>resteasy.providers</param-name>
         <param-value>javax.ws.rs.ext.Provider.UserWebServiceExceptionHandler</param-value>
-    </context-param>
-
+    </context-param>-->
 </web-app>

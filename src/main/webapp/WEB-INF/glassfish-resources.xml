@@ -22,4 +22,5 @@
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/Kwetter" object-type="user" pool-name="mysql_kwetter_pool"/>
     <!--<jdbc-resource enabled="true" jndi-name="java:module/kwetter" object-type="user" pool-name="mysql_kwetter_rootPool"/>-->
+    <jdbc-resource enabled="true" jndi-name="java:app/JNDI_Kwetter_Local_Resource" object-type="user" pool-name="Kwetter_MySQL_LOCAL"/>
 </resources>

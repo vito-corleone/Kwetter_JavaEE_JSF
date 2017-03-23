@@ -25,6 +25,10 @@ public class PostingDAO_JPA implements PostingDAO {
     public PostingDAO_JPA() {
     }
 
+    public PostingDAO_JPA(EntityManager em) {
+        this.em = em;
+    }
+
     @Override
     public void create(Posting posting) {
         em.persist(posting);
