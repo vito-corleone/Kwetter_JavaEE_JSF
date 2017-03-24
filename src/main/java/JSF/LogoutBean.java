@@ -28,15 +28,16 @@ public class LogoutBean {
     private static Logger log = Logger.getLogger(LogoutBean.class.getName());
 
     public String logout() {
-        String result = "/default.xhtml";
+        String result = "/Kwetter/faces/default.xhtml";
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         try {
             request.logout();
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "/loginerror.xhtml";
+            result = "/Kwetter/faces/loginerror.xhtml";
         }
         return result;
     }

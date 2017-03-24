@@ -53,6 +53,7 @@ public class User implements Serializable {
     private String website;
     private String location;
     private String name;
+    private String photoPath;
 
     @Column(unique = true)
     private String emailAddress;
@@ -71,6 +72,10 @@ public class User implements Serializable {
         peopleThatIFollow = new ArrayList<>();
         peopleThatFollowMe = new ArrayList<>();
         this.userRole = "User";
+        this.bio = "-";
+        this.location = "-";
+        this.website = "-";
+        this.photoPath = "http://www.denieuwereporter.nl/wp-content/uploads/2015/06/twitter.jpg";
     }
 
     // getters and setters
@@ -152,6 +157,14 @@ public class User implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     @Override
