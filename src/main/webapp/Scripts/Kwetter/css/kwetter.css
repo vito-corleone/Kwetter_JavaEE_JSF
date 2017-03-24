@@ -18,6 +18,10 @@
 
 }
 
+/*.followerImage {
+    float:left;
+}*/
+
 /* Remove the navbar's default margin-bottom and rounded borders */ 
 .navbar {
     margin-bottom: 0;
@@ -53,3 +57,4 @@ footer {
     }
     .row.content {height:auto;} 
 }
+
