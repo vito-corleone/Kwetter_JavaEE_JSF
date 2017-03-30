@@ -18,6 +18,9 @@
 
 }
 
+#comment {
+    resize: none;
+}
 /*.followerImage {
     float:left;
 }*/

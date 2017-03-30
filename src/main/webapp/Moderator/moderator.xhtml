@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Kwetter</title>
+        <meta name="Vito" content="The Author"></meta>
+    </h:head>
+    <!-- Add 50px padding top to the body for the navbar -->
+    <h:body style="padding-bottom: 20px;">
+        <b:navBar brand="Kwetter" brandHref="#" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Home" href="faces/index.xhtml"></b:navLink>
+                <b:navLink value="Startpage" href="faces/User/startpage.xhtml"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
+        <b:container >
+            <b:row>
+                <b:column col-md="6">
+
+                </b:column> 
+
+                <b:column col-md="6">
+
+                </b:column>  
+
+            </b:row>
+        </b:container>
+        <b:container>
+            <b:row>
+                <b:column col-md="8">
+                    <h:form id="postingsId">
+                        <p:dataTable var="post" id="radioDT" selection="#{moderatorBean.selectedPost}" rowKey="#{post.id}"  value="#{moderatorBean.allPostings}" scrollRows="15" scrollable="true" liveScroll="true" scrollHeight="150">
+                            <p:column selectionMode="single" style="width:30px;text-align:center"/>
+                            <p:column headerText="Id" footerText="Id" width="7%;">
+                                <h:outputText value="#{post.id}" />
+                            </p:column>
+                            <p:column headerText="Date" footerText="Date">
+                                <h:outputText value="#{post.date}" />
+                            </p:column>
+                            <p:column headerText="Author" footerText="Author">
+                                <h:outputText value="#{post.author}" />
+                            </p:column>
+                            <p:column headerText="Content" footerText="Content">
+                                <h:outputText value="#{post.content}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Delete" action="#{moderatorBean.deletePost()}" update=":postingsId:radioDT">
+                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:dataTable>                          
+                    </h:form>
+                </b:column>
+                <b:column col-md="4">
+                    <h:form id="commentId">
+                        <p:dataTable var="comment" id="radioComment" selection="#{moderatorBean.selectedComment}" rowKey="#{comment.id}"  value="#{moderatorBean.commentsFromPost}" scrollRows="5" scrollable="true" liveScroll="true" scrollHeight="150">
+                            <p:column selectionMode="single" style="width:30px;text-align:center"/>
+                            <p:column headerText="Id" footerText="Id" width="7%;">
+                                <h:outputText value="#{comment.id}" />
+                            </p:column>
+                            <p:column headerText="Date" footerText="Date">
+                                <h:outputText value="#{comment.date}" />
+                            </p:column>
+                            <p:column headerText="Author" footerText="Author">
+                                <h:outputText value="#{comment.author}" />
+                            </p:column>
+                            <p:column headerText="Content" footerText="Content">
+                                <h:outputText value="#{comment.content}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Delete" action="#{moderatorBean.deletePost(post)}" update=":commentId:radioComment">
+                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:dataTable>                          
+                    </h:form>
+                </b:column>
+            </b:row>
+        </b:container>
+        <b:container>
+            <hr/>
+            <footer>
+                <p>© Kwetter 2017</p>
+            </footer>
+        </b:container>
+    </h:body>
+</html>
+

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Kwetter</title>
+        <meta name="Vito" content="The Author"></meta>
+    </h:head>
+    <!-- Add 50px padding top to the body for the navbar -->
+    <h:body style="padding-bottom: 20px;">
+        <b:navBar brand="Kwetter" brandHref="#" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Home" href="Kwetter/faces/index.xhtml"></b:navLink>
+                <b:navLink value="Profilepage" href="../Public/profilepage.xhtml?emailAddress=#{userAuthBean.emailAddress}"></b:navLink>
+<!--                <p:button outcome="{logoutBean.logout()}" value="Logout" icon="ui-icon-star" style="float: right;"></p:button>-->
+            </b:navbarLinks>
+        </b:navBar>
+        <b:container >
+            <b:row>
+                <b:column col-md="3">
+                    <h2>You</h2>
+                    <p:panel id="basic" header="Your profile" style="margin-bottom:20px; font-size: 1.0em;">
+                        <h:panelGrid columns="2" cellpadding="10" style="display: inline;">
+                            <p:graphicImage name="#{userAuthBean.photoPath}" />
+                            <h:form>
+                                <h:outputLabel for="name" value="Name: " style="font-weight:bold" />
+                                <p:inplace id="ajax" editor="true">
+                                    <p:inputText value="#{userAuthBean.name}" required="true" label="text" />
+                                </p:inplace>
+                            </h:form>
+                            <h:form>
+                                <h:outputLabel for="bio" value="Bio: " style="font-weight:bold" />
+                                <p:inplace id="ajax" editor="true">
+                                    <p:inputText value="#{userAuthBean.userBio}" required="true" label="text" />
+                                </p:inplace>
+                            </h:form>
+                            <h:outputLabel for="location" value="Location: " style="font-weight:bold" />
+                            <p:inplace id="ajax" editor="true">
+                                <p:inputText value="#{userAuthBean.userLocation}" required="true" label="text" />
+                            </p:inplace>
+                            <h:form>
+                                <h:outputLabel for="website" value="Website: " style="font-weight:bold" />
+                                <p:inplace id="ajax" editor="true">
+                                    <p:inputText value="#{userAuthBean.userWebsite}" required="true" label="text" />
+                                </p:inplace>
+                            </h:form>
+                        </h:panelGrid>
+                    </p:panel>                   
+
+
+                </b:column>
+                <b:column col-md="6">
+                    <h2>Post kweet</h2>
+<!--                    <h:form>
+                        <p:inputTextarea value="{userAuthBean.}" rows="5" cols="30" counter="display" maxlength="160" counterTemplate="{0} characters remaining." autoResize="false" style="width: 100%;"/>                        
+                        <h:outputText id="display" style="float: right;" />
+                        <p:growl id="growl" life="2000" />
+                        <p:commandButton value="Post" id="ajax" update="growl" action="{userAuthBean.createPosting()}" styleClass="ui-priority-primary" />
+                    </h:form>-->
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="5">
+                            <h:outputLabel for="name" value="Name:" style="font-weight:bold" />
+                            <p:inputText id="name" value="#{userAuthBean.newPosting}" />
+                            <p:commandButton value="Post!" update="display" icon="ui-icon-check" />
+                            <h:outputText id="display" value="#{userAuthBean.createPosting()}" />
+                        </h:panelGrid>
+                    </h:form>
+                </b:column>
+                <b:column col-md="3">                    
+                    <h2>Following</h2>
+                    <h:form id="formFollowing">
+                        <p:growl id="msgsFollowing" showDetail="true" />
+                        <p:dataTable id="basicDTFollowing" var="user" value="#{userAuthBean.peopleIFollow}">
+                            <f:facet name="header">
+                            </f:facet>
+                            <p:column headerText="Icon">
+                                <p:graphicImage value="#{userAuthBean.photoPath}" style="max-height: 20px; max-width: 20px;"/>    
+                            </p:column>
+                            <p:column headerText="Name">
+                                <b:navLink value="#{user.name}" href="../Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </b:column>                    
+            </b:row>
+        </b:container>
+        <b:container>
+            <b:row>
+                <b:column col-md="3">
+                    <h2>Trends</h2>
+                    <p:dataList value="#{userAuthBean.trends}" var="trend" type="ordered">
+                        <f:facet name="header">
+                            Trends
+                        </f:facet>
+                        #{trend}
+                    </p:dataList>
+                </b:column>
+                <b:column col-md="6">
+                    <h2>Timeline</h2>
+                    <h:form>
+                        <p:dataTable var="post" value="#{userAuthBean.startPagePostings}" scrollRows="3" scrollable="true" liveScroll="true" scrollHeight="150">
+                            <p:column headerText="Author">
+                                <h:outputText value="#{post.author}" />
+                            </p:column>
+
+                            <p:column headerText="Date" >
+                                <h:outputText value="#{post.date}" />
+                            </p:column>
+
+                            <p:column headerText="Content" >
+                                <h:outputText value="#{post.content}" />
+                            </p:column>
+                        </p:dataTable>                          
+                    </h:form>
+                </b:column>
+                <b:column col-md="3">
+                    <h2>Followers</h2>
+                    <h:form id="form">
+                        <p:growl id="msgs" showDetail="true" />
+                        <p:dataTable id="basicDT" var="user" value="#{userAuthBean.peopleThatFollowMe}">
+                            <f:facet name="header">
+                            </f:facet>
+                            <p:column headerText="Icon">
+                                <p:graphicImage value="#{userAuthBean.photoPath}" style="max-height: 20px; max-width: 20px;"/>    
+                            </p:column>
+                            <p:column headerText="Name">
+                                <b:navLink value="#{user.name}" href="../Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </b:column>
+            </b:row>
+        </b:container>
+        <b:container>
+            <hr/>
+            <footer>
+                <p>© Kwetter 2017</p>
+            </footer>
+        </b:container>
+    </h:body>
+</html>
+

@@ -7,6 +7,8 @@ package service;
 
 import Dao.PostingDAO;
 import Model.Posting;
+import java.io.Serializable;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -15,15 +17,14 @@ import javax.inject.Inject;
  * @author Vito Corleone
  */
 @Stateless
-public class PostingService {
+public class PostingService implements Serializable {
 
     @Inject
     private PostingDAO postingDAO;
-    
-    public PostingService(){
-        
+
+    public PostingService() {
+
     }
-    
 
     public void create(Posting posting) {
         if (posting != null) {
@@ -44,9 +45,20 @@ public class PostingService {
         return null;
     }
 
+    public List<Posting> find(String userEmailaddress) {
+        if (!userEmailaddress.isEmpty()) {
+            return postingDAO.findPostings(userEmailaddress);
+        }
+        return null;
+    }
+
     public void remove(Long postingId) {
         if (postingId > 0) {
             postingDAO.remove(postingId);
         }
+    }
+
+    public List<Posting> getAllPostings() {
+        return postingDAO.getAllPostings();
     }
 }

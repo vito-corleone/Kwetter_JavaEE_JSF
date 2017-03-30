@@ -60,9 +60,16 @@ public class PostingDAO_JPA implements PostingDAO {
     }
 
     @Override
-    public List<Posting> findPostings(String author) {
+    public List<Posting> findPostings(String authorEmailAddress) {
         Query q = em.createNamedQuery("Posting.findByAuthor", Posting.class);
-        q.setParameter("author", author);
+        q.setParameter("author", authorEmailAddress);
+        List<Posting> foundPostings = (List<Posting>) q.getResultList();
+        return foundPostings;
+    }
+    
+    @Override
+    public List<Posting> getAllPostings() {
+        Query q = em.createNamedQuery("Posting.getAll", Posting.class);
         List<Posting> foundPostings = (List<Posting>) q.getResultList();
         return foundPostings;
     }

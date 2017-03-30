@@ -24,4 +24,6 @@ public interface PostingDAO {
     List<Posting> findPostings(String author);
 
     void remove(Long postingId);
+    
+    List<Posting> getAllPostings();
 }

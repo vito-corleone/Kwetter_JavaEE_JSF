@@ -7,6 +7,7 @@ package service;
 
 import Dao.UserDAO;
 import Model.User;
+import java.io.Serializable;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -15,7 +16,7 @@ import javax.inject.Inject;
  * @author Vito Corleone
  */
 @Stateless
-public class UserService {
+public class UserService implements Serializable{
 
     public UserService() {
     }

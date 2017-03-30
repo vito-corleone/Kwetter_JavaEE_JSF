@@ -5,13 +5,14 @@
  */
 package JSF;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,14 +22,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author Vito
  */
 @Named(value = "logoutBean")
-@ManagedBean
-@SessionScoped
-public class LogoutBean {
+public class LogoutBean implements Serializable{
 
     private static Logger log = Logger.getLogger(LogoutBean.class.getName());
 
     public String logout() {
-        String result = "/Kwetter/faces/default.xhtml";
+        String result = "/Kwetter/faces/index.xhtml";
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
@@ -37,7 +36,7 @@ public class LogoutBean {
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "/Kwetter/faces/loginerror.xhtml";
+            result = "/Kwetter/faces/Error/loginerror.xhtml";
         }
         return result;
     }

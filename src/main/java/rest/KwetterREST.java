@@ -131,7 +131,7 @@ public class KwetterREST {
     public PostingDTO createPosting(@PathParam("userId") Long userId, @PathParam("content") String content) {
         User foundUser = userService.find(userId);
         if (foundUser != null) {
-            Posting post = new Posting(foundUser.getName(), content);
+            Posting post = new Posting(foundUser.getEmailAddress(), content);
             postingService.create(post);
             return convertPostingToDto(post);
         }
