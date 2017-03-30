@@ -13,8 +13,8 @@
     <h:body style="padding-bottom: 20px;">
         <b:navBar brand="Kwetter" brandHref="#" inverse="true">
             <b:navbarLinks>
-                <b:navLink value="Home" href="index.xhtml"></b:navLink>
-                <b:navLink value="Startpage" href="User/startpage.xhtml"></b:navLink>
+                <b:navLink value="Home" href="http://localhost:8080/Kwetter/faces/index.xhtml"></b:navLink>
+                <b:navLink value="Startpage" href="http://localhost:8080/Kwetter/faces/User/startpage.xhtml"></b:navLink>
             </b:navbarLinks>
             <h:form>
                 <p:commandButton value="Logout" ajax="false" actionListener="#{logoutBean.logout()}" style="float:right;" />
@@ -23,12 +23,7 @@
         <b:container >
             <b:row>
                 <b:column col-md="6">
-
-                </b:column> 
-
-                <b:column col-md="6" >
-                    <h2>Find user:</h2>
-                    <p:panel id="basic" header="Your profile" style="margin-bottom:20px; font-size: 1.0em;">
+                    <p:panel id="basic" header="Find user" style="margin-bottom:20px; font-size: 1.0em;">
                         <b:row>
                             <h:form>
                                 <h:panelGrid columns="4" cellpadding="5">
@@ -42,9 +37,6 @@
                                 </h:panelGrid>
                             </h:form>
                         </b:row>
-
-                        <!--                        <h:panelGrid columns="2" cellpadding="10" style="display: inline;">-->
-                        <!--                            <p:graphicImage name="{moderatorBean.user.photoPath}" />-->
                         <b:row>
                             <h:form>
                                 <b:column col-md="6">
@@ -60,37 +52,58 @@
                         <!--                        brow moet boven form komen-->
                         <h:form>
                             <b:row>
-                                <h:outputLabel for="bio" value="EmailAddress " style="font-weight:bold" />
-                                <p:inplace id="ajax" editor="true">
-                                    <p:inputText value="#{moderatorBean.user.emailAddress}" required="true" label="text" />
-                                </p:inplace>
-                            </b:row>
-                        </h:form>
-                        <h:form>
-                            <h:outputLabel for="location" value="Location: " style="font-weight:bold" />
-                            <p:inplace id="ajax" editor="true">
-                                <p:inputText value="#{moderatorBean.user.location}" required="true" label="text" />
-                            </p:inplace>
-                        </h:form>
-                        <h:form>
-                            <b:row>
-                                <h:outputLabel for="website" value="Website: " style="font-weight:bold" />
-                                <p:inplace id="ajax" editor="true">
-                                    <p:inputText value="#{moderatorBean.user.website}" required="true" label="text" />
-                                </p:inplace>
+                                <b:column col-md="6">
+                                    <h:outputLabel for="bio" value="EmailAddress " style="font-weight:bold" />
+                                </b:column>
+                                <b:column col-md="6">
+                                    <p:inplace id="ajax" editor="true">
+                                        <p:inputText value="#{moderatorBean.user.emailAddress}" required="true" label="text" />
+                                    </p:inplace>
+                                </b:column>
                             </b:row>
                         </h:form>
                         <h:form>
                             <b:row>
-                                <h:outputLabel for="role" value="UserRole " style="font-weight:bold" />
-                                <p:inplace id="ajax" editor="true">
-                                    <p:inputText value="#{moderatorBean.user.userRole}" required="true" label="text" />
-                                </p:inplace>
+                                <b:column col-md="6">
+                                    <h:outputLabel for="location" value="Location: " style="font-weight:bold" />
+                                </b:column>
+                                <b:column col-md="6">
+                                    <p:inplace id="ajax" editor="true">
+                                        <p:inputText value="#{moderatorBean.user.location}" required="true" label="text" />
+                                    </p:inplace>
+                                </b:column>
+                            </b:row>
+                        </h:form>
+                        <h:form>
+                            <b:row>
+                                <b:column col-md="6">
+                                    <h:outputLabel for="website" value="Website: " style="font-weight:bold" />
+                                </b:column>
+                                <b:column col-md="6">
+                                    <p:inplace id="ajax" editor="true">
+                                        <p:inputText value="#{moderatorBean.user.website}" required="true" label="text" />
+                                    </p:inplace>
+                                </b:column>
+                            </b:row>
+                        </h:form>
+                        <h:form>
+                            <b:row>
+                                <b:column col-md="6">
+                                    <h:outputLabel for="role" value="UserRole " style="font-weight:bold" />
+                                </b:column>
+                                <b:column col-md="6">
+                                    <p:inplace id="ajax" editor="true">
+                                        <p:inputText value="#{moderatorBean.user.userRole}" required="true" label="text" />
+                                    </p:inplace>
+                                </b:column>
                             </b:row>
                         </h:form>
 
-                        <!--                        </h:panelGrid>-->
-                    </p:panel>                   
+                    </p:panel>             
+                </b:column> 
+
+                <b:column col-md="6" >
+
                 </b:column>  
 
             </b:row>
@@ -126,7 +139,7 @@
                         </p:dataTable>                          
                     </h:form>
                 </b:column>
-              
+
             </b:row>
         </b:container>
         <b:container>

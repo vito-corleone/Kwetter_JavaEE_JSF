@@ -24,7 +24,7 @@ import service.UserService;
  * @author Vito
  */
 @Named(value = "userPublicBean")
-@SessionScoped
+@RequestScoped
 public class userPublicBean implements Serializable {
 
     public userPublicBean() {
@@ -47,18 +47,15 @@ public class userPublicBean implements Serializable {
 
     // Implement proper validation for xss and sqli
     public User getUser() {
-        if (user == null) {
-            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            this.emailAddress = request.getParameter("emailAddress");
-            if (!emailAddress.isEmpty()) {
-                user = userService.find(emailAddress);
-                if (user != null) {
-                    return user;
-                }
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        this.emailAddress = request.getParameter("emailAddress");
+        if (!emailAddress.isEmpty()) {
+            user = userService.find(emailAddress);
+            if (user != null) {
+                return user;
             }
-        } else {
-            return user;
         }
+
         return null;
     }
     // USER INFO

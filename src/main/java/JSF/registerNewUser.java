@@ -77,7 +77,7 @@ public class registerNewUser implements Serializable{
         this.username = "";
         this.emailAddress = "";
         this.password = "";
-        this.result = "Account made, please login on the left-side";
+        this.result = "Account is made, go to the startpage and login";
     }
     
 }

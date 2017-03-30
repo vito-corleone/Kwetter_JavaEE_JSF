@@ -65,6 +65,18 @@
             <role-name>Moderator</role-name>
         </auth-constraint>
     </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Public Pages</web-resource-name>
+            <url-pattern>/faces/Public/*</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+        <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Login page</web-resource-name>
+            <url-pattern>/faces/Login/*</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
     
     
     

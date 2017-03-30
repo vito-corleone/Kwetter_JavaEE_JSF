@@ -9,10 +9,10 @@
 
     <h:head>
         <title>My Profile</title>
-        <script src="../Scripts/Bootstrap/js/bootstrap.js"></script>
+        <!--        <script src="../Scripts/Bootstrap/js/bootstrap.js"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />           
-        <script src="../Scripts/Bootstrap/js/bootstrap.js" type="text/javascript"></script>
-        <link href="../Scripts/Bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <!--        <script src="../Scripts/Bootstrap/js/bootstrap.js" type="text/javascript"></script>
+                <link href="../Scripts/Bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>-->
         <link href="../Scripts/Kwetter/css/kwetter.css" rel="stylesheet" type="text/css"/>
     </h:head>
 
@@ -20,8 +20,8 @@
         <!--         NAVIGATION BAR -->
         <b:navBar brand="Kwetter" brandHref="#" inverse="true">
             <b:navbarLinks>
-                <b:navLink value="Home" href="../index.xhtml"></b:navLink>
-                <b:navLink value="Startpage" href="../User/startpage.xhtml"></b:navLink>
+                <b:navLink value="Home" href="http://localhost:8080/Kwetter/faces/index.xhtml"></b:navLink>
+                <b:navLink value="Startpage" href="http://localhost:8080/Kwetter/faces/User/startpage.xhtml"></b:navLink>
             </b:navbarLinks>
         </b:navBar>
         <!-- EmailAddress parameter  -->
@@ -99,8 +99,9 @@
                         <div class="userFollowing">
                             <ui:repeat value="#{userPublicBean.peopleIFollow}" var="user">
                                 <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;"/>
-                                <p:link  outcome="/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}" value="#{user.name}">
-                                </p:link>
+
+                                <b:navLink value="#{user.name}" href="http://localhost:8080/Kwetter/faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
+
                                 <br></br>
                             </ui:repeat>  
                         </div>
@@ -117,8 +118,7 @@
                         <div class="userFollowers">
                             <ui:repeat value="#{userPublicBean.peopleThatFollowMe}" var="user">
                                 <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;" />                                     
-                                <p:link outcome="/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}" value="#{user.name}">
-                                </p:link>
+                                <b:navLink value="#{user.name}" href="http://localhost:8080/Kwetter/faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
                                 <br></br>
                             </ui:repeat>                        
                         </div>

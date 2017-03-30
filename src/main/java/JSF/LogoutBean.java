@@ -30,7 +30,7 @@ public class LogoutBean implements Serializable {
     private static Logger log = Logger.getLogger(LogoutBean.class.getName());
 
     public void logout() {
-        String result = "faces/index.xhtml";
+        String result = "http://localhost:8080/Kwetter/faces/index.xhtml";
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
@@ -41,7 +41,7 @@ public class LogoutBean implements Serializable {
             externalContext.redirect(result);
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "faces/Error/loginerror.xhtml";
+            result = "http://localhost:8080/Kwetter/faces/Error/loginerror.xhtml";
             try {
                 externalContext.redirect(result);
             } catch (IOException ex) {
