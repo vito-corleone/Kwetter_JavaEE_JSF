@@ -13,9 +13,12 @@
     <h:body style="padding-bottom: 20px;">
         <b:navBar brand="Kwetter" brandHref="#" inverse="true">
             <b:navbarLinks>
-                <b:navLink value="Home" href="faces/index.xhtml"></b:navLink>
-                <b:navLink value="Startpage" href="faces/User/startpage.xhtml"></b:navLink>
+                <b:navLink value="Home" href="index.xhtml"></b:navLink>
+                <b:navLink value="Startpage" href="User/startpage.xhtml"></b:navLink>
             </b:navbarLinks>
+            <h:form>
+                <p:commandButton value="Logout" ajax="false" actionListener="#{logoutBean.logout()}" style="float:right;" />
+            </h:form>
         </b:navBar>
         <b:container >
             <b:row>
@@ -23,8 +26,71 @@
 
                 </b:column> 
 
-                <b:column col-md="6">
+                <b:column col-md="6" >
+                    <h2>Find user:</h2>
+                    <p:panel id="basic" header="Your profile" style="margin-bottom:20px; font-size: 1.0em;">
+                        <b:row>
+                            <h:form>
+                                <h:panelGrid columns="4" cellpadding="5">
+                                    <b:column col-md="6">
+                                        <h:outputLabel for="name" value="Emailaddress" style="font-weight:bold" />
+                                    </b:column>
+                                    <b:column col-md="6">
+                                        <p:inputText id="name" value="#{moderatorBean.emailAddress}" />
+                                    </b:column>
+                                    <p:commandButton value="Search user" update="basic" action="#{moderatorBean.findUser()}" icon="ui-icon-check" />
+                                </h:panelGrid>
+                            </h:form>
+                        </b:row>
 
+                        <!--                        <h:panelGrid columns="2" cellpadding="10" style="display: inline;">-->
+                        <!--                            <p:graphicImage name="{moderatorBean.user.photoPath}" />-->
+                        <b:row>
+                            <h:form>
+                                <b:column col-md="6">
+                                    <h:outputLabel for="name" value="Name: " style="font-weight:bold" />
+                                </b:column>
+                                <b:column col-md="6">
+                                    <p:inplace id="ajax" editor="true">
+                                        <p:inputText value="#{moderatorBean.user.name}" required="true" label="text" />
+                                    </p:inplace>
+                                </b:column>
+                            </h:form>
+                        </b:row>
+                        <!--                        brow moet boven form komen-->
+                        <h:form>
+                            <b:row>
+                                <h:outputLabel for="bio" value="EmailAddress " style="font-weight:bold" />
+                                <p:inplace id="ajax" editor="true">
+                                    <p:inputText value="#{moderatorBean.user.emailAddress}" required="true" label="text" />
+                                </p:inplace>
+                            </b:row>
+                        </h:form>
+                        <h:form>
+                            <h:outputLabel for="location" value="Location: " style="font-weight:bold" />
+                            <p:inplace id="ajax" editor="true">
+                                <p:inputText value="#{moderatorBean.user.location}" required="true" label="text" />
+                            </p:inplace>
+                        </h:form>
+                        <h:form>
+                            <b:row>
+                                <h:outputLabel for="website" value="Website: " style="font-weight:bold" />
+                                <p:inplace id="ajax" editor="true">
+                                    <p:inputText value="#{moderatorBean.user.website}" required="true" label="text" />
+                                </p:inplace>
+                            </b:row>
+                        </h:form>
+                        <h:form>
+                            <b:row>
+                                <h:outputLabel for="role" value="UserRole " style="font-weight:bold" />
+                                <p:inplace id="ajax" editor="true">
+                                    <p:inputText value="#{moderatorBean.user.userRole}" required="true" label="text" />
+                                </p:inplace>
+                            </b:row>
+                        </h:form>
+
+                        <!--                        </h:panelGrid>-->
+                    </p:panel>                   
                 </b:column>  
 
             </b:row>
@@ -32,19 +98,20 @@
         <b:container>
             <b:row>
                 <b:column col-md="8">
+
                     <h:form id="postingsId">
                         <p:dataTable var="post" id="radioDT" selection="#{moderatorBean.selectedPost}" rowKey="#{post.id}"  value="#{moderatorBean.allPostings}" scrollRows="15" scrollable="true" liveScroll="true" scrollHeight="150">
                             <p:column selectionMode="single" style="width:30px;text-align:center"/>
-                            <p:column headerText="Id" footerText="Id" width="7%;">
+                            <p:column headerText="Id" width="7%" >
                                 <h:outputText value="#{post.id}" />
                             </p:column>
-                            <p:column headerText="Date" footerText="Date">
+                            <p:column headerText="Date" >
                                 <h:outputText value="#{post.date}" />
                             </p:column>
-                            <p:column headerText="Author" footerText="Author">
+                            <p:column headerText="Author" >
                                 <h:outputText value="#{post.author}" />
                             </p:column>
-                            <p:column headerText="Content" footerText="Content">
+                            <p:column headerText="Content" >
                                 <h:outputText value="#{post.content}" />
                             </p:column>
                             <f:facet name="footer">
@@ -59,34 +126,7 @@
                         </p:dataTable>                          
                     </h:form>
                 </b:column>
-                <b:column col-md="4">
-                    <h:form id="commentId">
-                        <p:dataTable var="comment" id="radioComment" selection="#{moderatorBean.selectedComment}" rowKey="#{comment.id}"  value="#{moderatorBean.commentsFromPost}" scrollRows="5" scrollable="true" liveScroll="true" scrollHeight="150">
-                            <p:column selectionMode="single" style="width:30px;text-align:center"/>
-                            <p:column headerText="Id" footerText="Id" width="7%;">
-                                <h:outputText value="#{comment.id}" />
-                            </p:column>
-                            <p:column headerText="Date" footerText="Date">
-                                <h:outputText value="#{comment.date}" />
-                            </p:column>
-                            <p:column headerText="Author" footerText="Author">
-                                <h:outputText value="#{comment.author}" />
-                            </p:column>
-                            <p:column headerText="Content" footerText="Content">
-                                <h:outputText value="#{comment.content}" />
-                            </p:column>
-                            <f:facet name="footer">
-                                <p:commandButton value="Delete" action="#{moderatorBean.deletePost(post)}" update=":commentId:radioComment">
-                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                                </p:commandButton>
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                </p:confirmDialog>
-                            </f:facet>
-                        </p:dataTable>                          
-                    </h:form>
-                </b:column>
+              
             </b:row>
         </b:container>
         <b:container>

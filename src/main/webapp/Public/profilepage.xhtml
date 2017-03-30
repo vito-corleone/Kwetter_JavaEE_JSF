@@ -98,9 +98,10 @@
                     <div class = "panel-body">
                         <div class="userFollowing">
                             <ui:repeat value="#{userPublicBean.peopleIFollow}" var="user">
-                                <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;"/>                                
-                                <p:link outcome="/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}" value="#{user.name}">
-                                </p:link> <br></br>
+                                <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;"/>
+                                <p:link  outcome="/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}" value="#{user.name}">
+                                </p:link>
+                                <br></br>
                             </ui:repeat>  
                         </div>
                     </div>
@@ -117,7 +118,8 @@
                             <ui:repeat value="#{userPublicBean.peopleThatFollowMe}" var="user">
                                 <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;" />                                     
                                 <p:link outcome="/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}" value="#{user.name}">
-                                </p:link> <br></br>
+                                </p:link>
+                                <br></br>
                             </ui:repeat>                        
                         </div>
                     </div>

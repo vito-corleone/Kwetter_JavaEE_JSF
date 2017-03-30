@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -20,6 +22,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Comment.findBycommentId", query = "select c from Comment as c where c.id = :commentId")
+})
 public class Comment implements Serializable {
   private static final long serialVersionUID = 1L;
     @Id

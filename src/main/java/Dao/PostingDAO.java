@@ -22,8 +22,13 @@ public interface PostingDAO {
     Posting find(Long postingId);
     
     List<Posting> findPostings(String author);
+    
+    List<Posting> searchPosting(String keyword);
+    
 
     void remove(Long postingId);
+    
+    void removeComment(Long commentId);
     
     List<Posting> getAllPostings();
 }

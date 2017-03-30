@@ -39,7 +39,7 @@
     <!-- ERROR PAGES -->
     <error-page>
         <error-code>403</error-code>
-        <location>/faces/Error/403.xhtml</location>
+        <location>/Error/403.xhtml</location>
     </error-page>
     
     <!--USER-->
@@ -53,7 +53,6 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>User</role-name>
-            <role-name>Mederator</role-name>
         </auth-constraint>
     </security-constraint>
     <!--    MODERATOR-->

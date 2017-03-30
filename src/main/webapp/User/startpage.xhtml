@@ -13,10 +13,11 @@
     <h:body style="padding-bottom: 20px;">
         <b:navBar brand="Kwetter" brandHref="#" inverse="true">
             <b:navbarLinks>
-                <b:navLink value="Home" href="Kwetter/faces/index.xhtml"></b:navLink>
-                <b:navLink value="Profilepage" href="../Public/profilepage.xhtml?emailAddress=#{userAuthBean.emailAddress}"></b:navLink>
-<!--                <p:button outcome="{logoutBean.logout()}" value="Logout" icon="ui-icon-star" style="float: right;"></p:button>-->
+                <b:navLink value="Home" href="../index.xhtml"></b:navLink>
             </b:navbarLinks>
+            <h:form>
+                <p:commandButton value="Logout"  ajax="false" actionListener="#{logoutBean.logout()}" style="float:right;" />
+            </h:form>
         </b:navBar>
         <b:container >
             <b:row>
@@ -54,18 +55,21 @@
                 </b:column>
                 <b:column col-md="6">
                     <h2>Post kweet</h2>
-<!--                    <h:form>
-                        <p:inputTextarea value="{userAuthBean.}" rows="5" cols="30" counter="display" maxlength="160" counterTemplate="{0} characters remaining." autoResize="false" style="width: 100%;"/>                        
-                        <h:outputText id="display" style="float: right;" />
-                        <p:growl id="growl" life="2000" />
-                        <p:commandButton value="Post" id="ajax" update="growl" action="{userAuthBean.createPosting()}" styleClass="ui-priority-primary" />
-                    </h:form>-->
                     <h:form>
                         <h:panelGrid columns="4" cellpadding="5">
                             <h:outputLabel for="name" value="Name:" style="font-weight:bold" />
                             <p:inputText id="name" value="#{userAuthBean.newPosting}" />
-                            <p:commandButton value="Post!" update="display" icon="ui-icon-check" />
-                            <h:outputText id="display" value="#{userAuthBean.createPosting()}" />
+                            <p:commandButton value="Post!" action="#{userAuthBean.createPosting()}" update=":tabview" icon="ui-icon-check" />
+                        </h:panelGrid>
+                    </h:form>
+                    <h2>or</h2>
+                    <h2>Search a kweet</h2>
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="5">
+                            <h:outputLabel for="name" value="Name:" style="font-weight:bold" />
+                            <p:inputText id="name" value="#{userAuthBean.searchKeyword}" />
+                            <p:commandButton value="Search" action="#{userAuthBean.searchPosting()}" update=":tabview" icon="ui-icon-check" /> 
+                            <!--                            update=":timelineForm"-->
                         </h:panelGrid>
                     </h:form>
                 </b:column>
@@ -80,7 +84,7 @@
                                 <p:graphicImage value="#{userAuthBean.photoPath}" style="max-height: 20px; max-width: 20px;"/>    
                             </p:column>
                             <p:column headerText="Name">
-                                <b:navLink value="#{user.name}" href="../Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
+                                <b:navLink value="#{user.name}" href="faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
                             </p:column>
                         </p:dataTable>
                     </h:form>
@@ -99,22 +103,44 @@
                     </p:dataList>
                 </b:column>
                 <b:column col-md="6">
-                    <h2>Timeline</h2>
-                    <h:form>
-                        <p:dataTable var="post" value="#{userAuthBean.startPagePostings}" scrollRows="3" scrollable="true" liveScroll="true" scrollHeight="150">
-                            <p:column headerText="Author">
-                                <h:outputText value="#{post.author}" />
-                            </p:column>
+                    <p:tabView id="tabview">
+                        <p:tab title="Timeline">
+                            <h:form id="timelineForm">
+                                <p:dataTable  var="post" value="#{userAuthBean.startPagePostings}" scrollRows="3" scrollable="true" liveScroll="true" scrollHeight="150">
+                                    <p:column headerText="Author">
+                                        <h:outputText value="#{post.author}" />
+                                    </p:column>
 
-                            <p:column headerText="Date" >
-                                <h:outputText value="#{post.date}" />
-                            </p:column>
+                                    <p:column headerText="Date" >
+                                        <h:outputText value="#{post.date}" />
+                                    </p:column>
 
-                            <p:column headerText="Content" >
-                                <h:outputText value="#{post.content}" />
-                            </p:column>
-                        </p:dataTable>                          
-                    </h:form>
+                                    <p:column headerText="Content" >
+                                        <h:outputText value="#{post.content}" />
+                                    </p:column>
+                                </p:dataTable>  
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="Search results" id="searchForm">
+                            <h:form>
+                                <p:dataTable  var="post" value="#{userAuthBean.searchResults}" scrollRows="3" scrollable="true" liveScroll="true" scrollHeight="150">
+                                    <p:column headerText="Author">
+                                        <h:outputText value="#{post.author}" />
+                                    </p:column>
+
+                                    <p:column headerText="Date" >
+                                        <h:outputText value="#{post.date}" />
+                                    </p:column>
+
+                                    <p:column headerText="Content" >
+                                        <h:outputText value="#{post.content}" />
+                                    </p:column>
+                                </p:dataTable>  
+                            </h:form>
+                        </p:tab>
+                    </p:tabView>
+
+
                 </b:column>
                 <b:column col-md="3">
                     <h2>Followers</h2>
@@ -127,7 +153,7 @@
                                 <p:graphicImage value="#{userAuthBean.photoPath}" style="max-height: 20px; max-width: 20px;"/>    
                             </p:column>
                             <p:column headerText="Name">
-                                <b:navLink value="#{user.name}" href="../Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
+                                <b:navLink value="#{user.name}" href="faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
                             </p:column>
                         </p:dataTable>
                     </h:form>

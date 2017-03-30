@@ -24,7 +24,7 @@ import service.UserService;
  * @author Vito
  */
 @Named(value = "userPublicBean")
-@RequestScoped
+@SessionScoped
 public class userPublicBean implements Serializable {
 
     public userPublicBean() {

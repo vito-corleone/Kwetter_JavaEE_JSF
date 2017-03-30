@@ -51,10 +51,23 @@ public class PostingService implements Serializable {
         }
         return null;
     }
+    
+    public List<Posting> searchPosting(String keyword) {
+        if (!keyword.isEmpty()) {
+            return postingDAO.searchPosting(keyword);
+        }
+        return null;
+    }
 
     public void remove(Long postingId) {
         if (postingId > 0) {
             postingDAO.remove(postingId);
+        }
+    }
+    
+    public void removeComment(Long commentId) {
+        if (commentId > 0) {
+            postingDAO.removeComment(commentId);
         }
     }
 

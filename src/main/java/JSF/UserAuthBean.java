@@ -10,6 +10,7 @@ import Model.User;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
@@ -30,10 +31,10 @@ import service.UserService;
 @SessionScoped
 public class UserAuthBean implements Serializable {
 
-    public UserAuthBean(){
-        
+    public UserAuthBean() {
+
     }
-    
+
     @Inject
     private UserService userService;
 
@@ -44,8 +45,12 @@ public class UserAuthBean implements Serializable {
 
     private String newPosting;
 
+    private String searchKeyword;
+
     // user object
     private User user;
+    
+    private List<Posting> searchResults;
 
     HttpSession session;
 
@@ -212,21 +217,25 @@ public class UserAuthBean implements Serializable {
     }
 
     public List<Posting> getStartPagePostings() {
-        List<Posting> startpage = new ArrayList<>();
+        List<Posting> startpage;
         if (user != null) {
+            startpage = postingService.find(user.getEmailAddress());
             for (User user : user.getThePeopleThatIFollow()) {
                 for (Posting post : postingService.find(user.getEmailAddress())) {
                     startpage.add(post);
                 }
             }
+            Collections.sort(startpage, Collections.reverseOrder());
             return startpage;
         } else if (user == null) {
             if (getAuthUser() != null) {
+                startpage = postingService.find(user.getEmailAddress());
                 for (User user : user.getThePeopleThatIFollow()) {
                     for (Posting post : postingService.find(user.getEmailAddress())) {
                         startpage.add(post);
                     }
                 }
+                Collections.sort(startpage);
                 return startpage;
             }
         }
@@ -241,12 +250,38 @@ public class UserAuthBean implements Serializable {
         this.newPosting = newPosting;
     }
 
-    
-    public void createPosting(){
+    public void createPosting() {
         if (getAuthUser() != null) {
             Posting post = new Posting(this.user.getEmailAddress(), newPosting);
             postingService.create(post);
             this.newPosting = "";
         }
+    }
+
+    public String getSearchKeyword() {
+        return searchKeyword;
+    }
+
+    public void setSearchKeyword(String searchKeyword) {
+        this.searchKeyword = searchKeyword;
+    }
+
+    public List<Posting> getSearchResults() {
+        return searchResults;
+    }
+
+    public void setSearchResults(List<Posting> searchResults) {
+        this.searchResults = searchResults;
+    }
+    
+
+    public List<Posting> searchPosting() {
+        if (!this.searchKeyword.isEmpty()) {
+            List<Posting> searchResult = postingService.searchPosting(searchKeyword);
+            Collections.sort(searchResult, Collections.reverseOrder()); 
+            this.searchResults = searchResult;
+            return searchResults;
+        }
+        return new ArrayList<>();
     }
 }

@@ -27,11 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Posting.getAll", query = "select p from Posting as p"),
-    @NamedQuery(name = "Posting.findByAuthor", query = "select p from Posting as p where p.author = :author"),
+    @NamedQuery(name = "Posting.getAll", query = "select p from Posting as p")
+    ,
+    @NamedQuery(name = "Posting.findByAuthor", query = "select p from Posting as p where p.author = :author")
+    ,
     @NamedQuery(name = "Posting.findBypostingId", query = "select p from Posting as p where p.id = :postingId")
+    ,
+    @NamedQuery(name = "Posting.findByKeyword", query = "SELECT p FROM Posting p WHERE p.content LIKE :keyword")
 })
-public class Posting implements Serializable {
+public class Posting implements Serializable, Comparable<Posting> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,7 +45,7 @@ public class Posting implements Serializable {
     private String content;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments;
     private Long nextCommentId;
 
@@ -145,14 +149,19 @@ public class Posting implements Serializable {
     }
 
     public boolean removeComment(Long commentId) {
-        if(commentId > 0){
-            for(Comment comment : comments){
-                if(comment.getId().equals(commentId)){
+        if (commentId > 0) {
+            for (Comment comment : comments) {
+                if (comment.getId().equals(commentId)) {
                     comments.remove(comment);
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public int compareTo(Posting o) {
+        return getDate().compareTo(o.getDate());
     }
 }

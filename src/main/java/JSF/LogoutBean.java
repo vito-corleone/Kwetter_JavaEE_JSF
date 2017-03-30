@@ -5,6 +5,7 @@
  */
 package JSF;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,23 +24,40 @@ import javax.servlet.http.HttpServletRequest;
  * @author Vito
  */
 @Named(value = "logoutBean")
-public class LogoutBean implements Serializable{
+@SessionScoped
+public class LogoutBean implements Serializable {
 
     private static Logger log = Logger.getLogger(LogoutBean.class.getName());
 
-    public String logout() {
-        String result = "/Kwetter/faces/index.xhtml";
+    public void logout() {
+        String result = "faces/index.xhtml";
         FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        ExternalContext externalContext = context.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 
         try {
             request.logout();
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            externalContext.invalidateSession();
+            externalContext.redirect(result);
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "/Kwetter/faces/Error/loginerror.xhtml";
+            result = "faces/Error/loginerror.xhtml";
+            try {
+                externalContext.redirect(result);
+            } catch (IOException ex) {
+                Logger.getLogger(LogoutBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(LogoutBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return result;
     }
 
+    public boolean loginStatus() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        ExternalContext ectx = ctx.getExternalContext();
+        if (ectx.getUserPrincipal() != null) {
+            return true;
+        }
+        return false;
+    }
 }

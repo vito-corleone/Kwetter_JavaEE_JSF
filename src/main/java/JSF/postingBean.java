@@ -22,7 +22,7 @@ import service.UserService;
  * @author Vito
  */
 @Named(value = "postingBean")
-@RequestScoped
+@SessionScoped
 public class postingBean implements Serializable{
 
     public postingBean(){

@@ -5,9 +5,11 @@
  */
 package Dao;
 
+import Model.Comment;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import Model.Posting;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceContext;
@@ -58,6 +60,15 @@ public class PostingDAO_JPA implements PostingDAO {
             em.remove(u);
         }
     }
+    
+    @Override
+    public void removeComment(Long commentId){
+        Comment comment = em.find(Comment.class, commentId);
+        if(comment != null){
+            em.remove(comment);
+        }
+    }
+    
 
     @Override
     public List<Posting> findPostings(String authorEmailAddress) {
@@ -72,5 +83,16 @@ public class PostingDAO_JPA implements PostingDAO {
         Query q = em.createNamedQuery("Posting.getAll", Posting.class);
         List<Posting> foundPostings = (List<Posting>) q.getResultList();
         return foundPostings;
+    }
+    
+    @Override
+    public List<Posting> searchPosting(String keyword){
+        Query q = em.createNamedQuery("Posting.findByKeyword", Posting.class);
+        q.setParameter("keyword", "%" + keyword + "%");
+        List<Posting> foundPostings = (List<Posting>) q.getResultList();
+        if(foundPostings.size() > 0){
+            return foundPostings;
+        }
+        return new ArrayList<>();
     }
 }

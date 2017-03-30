@@ -11,9 +11,8 @@
         <b:container >
             <b:row>
                 <b:column col-md="6">
-                    <p><h:link outcome="faces/index.xhtml" value="To Home Page" /></p>        
-                    <h2>Login</h2>
-                    <form method="POST" action="j_security_check">
+                    <h2>Please Login</h2>
+                    <form method="POST" action="j_security_check" id="jsecurityLoginForm">
                         <h:panelGrid columns="2">
                             <h:outputLabel value="User Name"/>
                             <input type="text" name="j_username" />
@@ -23,37 +22,8 @@
                         </h:panelGrid>
                     </form> 
                 </b:column> 
-
-                <b:column col-md="6">
-                    <h2>Create account</h2>
-                    <h:form id="createUser">
-                        <h:panelGrid columns="3">
-
-
-                            <h:outputLabel for="email" value="Email:"/>                
-                            <p:inputText id="email" value="#{registerNewUser.emailAddress}"/>
-                            <br />
-                            <br />
-
-                            <h:outputLabel for="username" value="Username:"/>  
-                            <p:inputText id="username" value="#{registerNewUser.username}"/>
-                            <br />
-                            <br />
-
-                            <h:outputLabel for="password" value="Password"/>
-                            <p:inputText id="password" type="password" value="#{registerNewUser.password}"/>
-                            <br />
-                            <br />
-                            <p:commandButton ajax="false" value="Submit" actionListener="#{registerNewUser.createUser}"  /> 
-                            <h:outputText id="display" value="#{registerNewUser.result}" />
-                        </h:panelGrid>
-                    </h:form>
-                </b:column>  
-
             </b:row>
         </b:container>
-
-
     </h:body>
 </html>
 
