@@ -28,7 +28,6 @@
         <div class="container-fluid text-center">    
             <div class="row content">
                 <div class="col-sm-2 sidenav">
-
                     <!-- PROFILE DETAILs  -->
                     <div class = "panel panel-default">
                         <div class = "panel-heading">
@@ -83,41 +82,41 @@
                     </div>
                 </form>
 
-            </div>
-            <div class="col-sm-2 sidenav" style="float: right;">
-                <!-- FOLLOWING -->
-                <div class = "panel panel-default" style="height: 45%;">
-                    <div class = "panel-heading">
-                        <h3 class = "panel-title">
-                            People i follow
-                        </h3>
-                    </div>
-                    <div class = "panel-body">
-                        <div class="userFollowing">
-                            <ui:repeat value="#{userPublicBean.peopleIFollow}" var="user">
-                                <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;"/>
+                <div class="col-sm-2 sidenav" style="float: right;">
+                    <!-- FOLLOWING -->
+                    <div class = "panel panel-default" style="height: 45%;">
+                        <div class = "panel-heading">
+                            <h3 class = "panel-title">
+                                People i follow
+                            </h3>
+                        </div>
+                        <div class = "panel-body">
+                            <div class="userFollowing">
+                                <ui:repeat value="#{userPublicBean.peopleIFollow}" var="user">
+                                    <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;"/>
 
-                                <b:navLink value="#{user.name}" href="http://localhost:8080/Kwetter/faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
+                                    <b:navLink value="#{user.name}" href="http://localhost:8080/Kwetter/faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
 
-                                <br></br>
-                            </ui:repeat>  
+                                    <br></br>
+                                </ui:repeat>  
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- FOLLOWERS -->
-                <div class = "panel panel-default" style="height: 45%;">
-                    <div class = "panel-heading">
-                        <h3 class = "panel-title">
-                            People that follow me
-                        </h3>
-                    </div>
-                    <div class = "panel-body">
-                        <div class="userFollowers">
-                            <ui:repeat value="#{userPublicBean.peopleThatFollowMe}" var="user">
-                                <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;" />                                     
-                                <b:navLink value="#{user.name}" href="http://localhost:8080/Kwetter/faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
-                                <br></br>
-                            </ui:repeat>                        
+                    <!-- FOLLOWERS -->
+                    <div class = "panel panel-default" style="height: 45%;">
+                        <div class = "panel-heading">
+                            <h3 class = "panel-title">
+                                People that follow me
+                            </h3>
+                        </div>
+                        <div class = "panel-body">
+                            <div class="userFollowers">
+                                <ui:repeat value="#{userPublicBean.peopleThatFollowMe}" var="user">
+                                    <h:graphicImage value="#{user.photoPath}" style="border: none; max-height: 10%; max-width: 10%;" />                                     
+                                    <b:navLink value="#{user.name}" href="http://localhost:8080/Kwetter/faces/Public/profilepage.xhtml?emailAddress=#{user.emailAddress}"></b:navLink>
+                                    <br></br>
+                                </ui:repeat>                        
+                            </div>
                         </div>
                     </div>
                 </div>

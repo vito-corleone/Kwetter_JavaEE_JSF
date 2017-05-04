@@ -21,7 +21,7 @@
     <!-- SESSION CONFIG -->
     <session-config>
         <session-timeout>
-            30
+            60
         </session-timeout>
     </session-config>
     
@@ -71,7 +71,7 @@
             <url-pattern>/faces/Public/*</url-pattern>
         </web-resource-collection>
     </security-constraint>
-        <security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>Login page</web-resource-name>
             <url-pattern>/faces/Login/*</url-pattern>
@@ -83,7 +83,10 @@
     
     <!--    REST-API-->    
     <!--USER-->
-    <security-constraint>
+    
+    
+    <!--    FOR DEMO USE FOR NOW NO AUTHENTICATION AND AUTHORIZATION REQUIRED-->
+    <!--    <security-constraint>
         <web-resource-collection>
             <web-resource-name>REST-API-User</web-resource-name>
             <url-pattern>/faces/webresources/rest/user/*</url-pattern>
@@ -92,7 +95,7 @@
             <role-name>User</role-name>
         </auth-constraint>
     </security-constraint>
-    <!--    MODERATOR-->
+        MODERATOR
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>REST-API-Moderator</web-resource-name>
@@ -101,5 +104,6 @@
         <auth-constraint>
             <role-name>Moderator</role-name>
         </auth-constraint>
-    </security-constraint>
+    </security-constraint>-->
+
 </web-app>

@@ -23,8 +23,7 @@ public interface PostingDAO {
     
     List<Posting> findPostings(String author);
     
-    List<Posting> searchPosting(String keyword);
-    
+    List<Posting> searchPosting(String keyword);    
 
     void remove(Long postingId);
     

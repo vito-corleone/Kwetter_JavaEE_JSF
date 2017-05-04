@@ -6,6 +6,7 @@
 package Dao;
 
 import Model.User;
+import java.util.List;
 
 /**
  *
@@ -21,5 +22,7 @@ public interface UserDAO {
     
     User find(String emailAddress);
 
-    void remove(Long userId);    
+    void remove(Long userId);   
+    
+    List<User> getAllUsers();
 }

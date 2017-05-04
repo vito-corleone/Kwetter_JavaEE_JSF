@@ -8,6 +8,7 @@ package Dao;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import Model.User;
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceContext;
@@ -70,5 +71,11 @@ public class UserDAO_JPA implements UserDAO {
             System.out.println(ex.getMessage());
             return null;
         }
+    }
+    
+    public List<User> getAllUsers() {
+        Query q = em.createNamedQuery("User.getAll", User.class);
+        List<User> foundUsers = (List<User>) q.getResultList();
+        return foundUsers;
     }
 }

@@ -24,10 +24,9 @@ public class ApplicationConfig extends Application {
     }
 
     /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
+     * Do not modify addRestResourceClasses() method. It is automatically
+     * populated with all resources defined in the project. If required, comment
+     * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.fasterxml.jackson.jaxrs.base.JsonMappingExceptionMapper.class);
@@ -41,5 +40,5 @@ public class ApplicationConfig extends Application {
         resources.add(org.codehaus.jackson.jaxrs.JsonMappingExceptionMapper.class);
         resources.add(org.codehaus.jackson.jaxrs.JsonParseExceptionMapper.class);
         resources.add(rest.KwetterREST.class);
-    }    
+    }
 }

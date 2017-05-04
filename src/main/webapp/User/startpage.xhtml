@@ -88,7 +88,10 @@
                                         <h:outputLabel for="name" value="Name:" style="font-weight:bold" />
                                     </b:column>
                                     <b:column col-md="6">
-                                        <p:inputText id="name" value="#{userAuthBean.newPosting}" />
+                                        <!--                                        <p:inputText id="name" value="{userAuthBean.newPosting}" />-->
+                                        <p:inputTextarea value="#{userAuthBean.newPosting}" rows="5" cols="30" counter="display" maxlength="160" counterTemplate="{0} characters remaining." autoResize="false" />
+                                        <h:outputText id="display" />
+
                                     </b:column>
                                     <b:column col-md="3">
                                         <p:commandButton value="Post!" action="#{userAuthBean.createPosting()}" update=":tabview" icon="ui-icon-check" />

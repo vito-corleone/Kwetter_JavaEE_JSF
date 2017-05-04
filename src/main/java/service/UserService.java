@@ -8,6 +8,7 @@ package service;
 import Dao.UserDAO;
 import Model.User;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -54,5 +55,9 @@ public class UserService implements Serializable{
         if (id > 0) {
             userDAO.remove(id);
         }
+    }
+    
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
     }
 }

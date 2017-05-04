@@ -20,7 +20,6 @@ public class PostingDTO {
     private String author;
     private String content;
     private Date date;
-    private List<CommentDTO> comments;
 
     public PostingDTO() {
 
@@ -31,7 +30,6 @@ public class PostingDTO {
         this.author = author;
         this.content = content;
         this.date = new Date();
-        this.comments = new ArrayList<CommentDTO>();
     }
 
     public Long getId() {
@@ -65,13 +63,4 @@ public class PostingDTO {
     public void setDate(Date date) {
         this.date = date;
     }
-
-    public List<CommentDTO> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentDTO> comments) {
-        this.comments = comments;
-    }
-
 }

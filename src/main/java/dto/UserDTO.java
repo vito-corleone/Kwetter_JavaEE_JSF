@@ -5,23 +5,27 @@
  */
 package dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Vito Corleone
  */
 public class UserDTO {
 
+    private Long id;
     private String userRole;
     private String bio;
     private String website;
     private String location;
     private String name;
     private String emailAddress;
-    
-    
+    private String photoPath;
+        
     public UserDTO(String name, String emailAddress, String password) {
         this.name = name;
-        this.emailAddress = emailAddress;
+        this.emailAddress = emailAddress;        
     }
 
     public UserDTO() {
@@ -76,6 +80,20 @@ public class UserDTO {
         this.emailAddress = emailAddress;
     }
 
-   
+    public String getPhotoPath() {
+        return photoPath;
+    }
 
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+   
 }
