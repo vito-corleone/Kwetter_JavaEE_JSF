@@ -5,6 +5,7 @@
  */
 package WebSocket;
 
+import Model.Posting;
 import java.io.IOException;
 import javax.ejb.Asynchronous;
 import javax.ejb.ConcurrencyManagement;
@@ -26,24 +27,24 @@ public class EchoBean {
     private EchoBean delegate;
 
     @Asynchronous
-    public void send(Session session, Message message, int repeats, long delay, double delayMultiplier ){
+    public void send(Session session, Posting posting, int repeats, long delay, double delayMultiplier ){
         try {
             synchronized(session){
-                session.getBasicRemote().sendObject(message);
+                session.getBasicRemote().sendObject(posting);
             }
             Thread.sleep(delay);
         } catch (InterruptedException | IOException | EncodeException ex) {
             throw new IllegalStateException(ex);
         }
-        if(1<repeats){
-            delegate.send(
-                session, 
-                new Message("." + message.getText()), 
-                repeats-1, 
-                Math.round(delay*delayMultiplier), 
-                delayMultiplier
-            );
-        }
+//        if(1<repeats){
+//            delegate.send(
+//                session, 
+//                new Message("." + message.getText()), 
+//                repeats-1, 
+//                Math.round(delay*delayMultiplier), 
+//                delayMultiplier
+//            );
+//        }
 
     }
 }

@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class Message implements Serializable{
     
     private String text;
+    private String author;
 
     public Message() {
     }
@@ -21,7 +22,22 @@ public class Message implements Serializable{
     public Message(String text) {
         this.text = text;
     }
+    
+    public Message(String author, String text) {
+        this.author = author;
+        this.text = text;
+    }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    
+    
     public String getText() {
         return text;
     }

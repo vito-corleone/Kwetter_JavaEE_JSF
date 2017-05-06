@@ -17,14 +17,12 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
-    
     <!-- SESSION CONFIG -->
     <session-config>
         <session-timeout>
             60
         </session-timeout>
     </session-config>
-    
     <!--LOGIN CONFIG-->
     <login-config>
         <auth-method>FORM</auth-method>
@@ -35,13 +33,11 @@
         </form-login-config>
     </login-config>
     <!--    WEBPAGES-->
-    
     <!-- ERROR PAGES -->
     <error-page>
         <error-code>403</error-code>
         <location>/Error/403.xhtml</location>
     </error-page>
-    
     <!--USER-->
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
@@ -77,14 +73,8 @@
             <url-pattern>/faces/Login/*</url-pattern>
         </web-resource-collection>
     </security-constraint>
-    
-    
-    
-    
-    <!--    REST-API-->    
+    <!--    REST-API-->
     <!--USER-->
-    
-    
     <!--    FOR DEMO USE FOR NOW NO AUTHENTICATION AND AUTHORIZATION REQUIRED-->
     <!--    <security-constraint>
         <web-resource-collection>
@@ -105,5 +95,4 @@
             <role-name>Moderator</role-name>
         </auth-constraint>
     </security-constraint>-->
-
 </web-app>

@@ -33,7 +33,11 @@ public class PostingDAO_JPA implements PostingDAO {
 
     @Override
     public void create(Posting posting) {
-        em.persist(posting);
+        try {
+            em.persist(posting);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     @Override
@@ -60,15 +64,14 @@ public class PostingDAO_JPA implements PostingDAO {
             em.remove(u);
         }
     }
-    
+
     @Override
-    public void removeComment(Long commentId){
+    public void removeComment(Long commentId) {
         Comment comment = em.find(Comment.class, commentId);
-        if(comment != null){
+        if (comment != null) {
             em.remove(comment);
         }
     }
-    
 
     @Override
     public List<Posting> findPostings(String authorEmailAddress) {
@@ -77,20 +80,20 @@ public class PostingDAO_JPA implements PostingDAO {
         List<Posting> foundPostings = (List<Posting>) q.getResultList();
         return foundPostings;
     }
-    
+
     @Override
     public List<Posting> getAllPostings() {
         Query q = em.createNamedQuery("Posting.getAll", Posting.class);
         List<Posting> foundPostings = (List<Posting>) q.getResultList();
         return foundPostings;
     }
-    
+
     @Override
-    public List<Posting> searchPosting(String keyword){
+    public List<Posting> searchPosting(String keyword) {
         Query q = em.createNamedQuery("Posting.findByKeyword", Posting.class);
         q.setParameter("keyword", "%" + keyword + "%");
         List<Posting> foundPostings = (List<Posting>) q.getResultList();
-        if(foundPostings.size() > 0){
+        if (foundPostings.size() > 0) {
             return foundPostings;
         }
         return new ArrayList<>();

@@ -56,7 +56,7 @@ public class Posting implements Serializable, Comparable<Posting> {
         this.author = author;
         this.content = content;
         this.date = new Date();
-        this.comments = new ArrayList<Comment>();
+        this.comments = new ArrayList<>();
         this.nextCommentId = 1L;
     }
 
@@ -65,7 +65,7 @@ public class Posting implements Serializable, Comparable<Posting> {
         this.author = author;
         this.content = content;
         this.date = new Date();
-        this.comments = new ArrayList<Comment>();
+        this.comments = new ArrayList<>();
         this.nextCommentId = 1L;
     }
 
