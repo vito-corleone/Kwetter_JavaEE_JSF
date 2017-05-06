@@ -89,22 +89,28 @@ public class KwetterWsEndpoint {
             Posting newPosting = new Posting(message.getAuthor(), message.getText());
             postingService.create(newPosting);
             ECHO_BEAN.send(session, newPosting, 5, 1000, 1.2);
+            updateFriends(message.getAuthor(), newPosting);
         }
     }
 
-//    private void updateFriends(){
-//        List<User> followers = new ArrayList<>();
-//        
-//    }
+    private void updateFriends(String emailAddress, Posting newPosting) {        
+        List<User> followers = userService.find(emailAddress).getThePeopleThatFollowMe();
+        for (User user : followers) {
+            Session session = sessionHandler.getSession(user.getEmailAddress());
+            if (session != null) {
+                ECHO_BEAN.send(session, newPosting, 5, 1000, 1.2);
+            }
+        }
+    }
+
     @OnClose
     public void onClose(Session session, CloseReason closeReason) {
         LOG.log(Level.INFO, "session {0} closed with reason {1}", new Object[]{session, closeReason});
         sessionHandler.removeSession(session);
     }
-    
-    
+
     @OnError
-        public void onError(Session session, Throwable throwable) {
+    public void onError(Session session, Throwable throwable) {
         LOG.log(
                 Level.WARNING,
                 new StringBuilder("an error occured for session ").append(session).toString(),
