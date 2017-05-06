@@ -39,7 +39,7 @@ public class ApplicationConfig extends Application {
         resources.add(org.codehaus.jackson.jaxrs.JacksonJsonProvider.class);
         resources.add(org.codehaus.jackson.jaxrs.JsonMappingExceptionMapper.class);
         resources.add(org.codehaus.jackson.jaxrs.JsonParseExceptionMapper.class);
-        resources.add(rest.KwetterREST.class);
-        
+        resources.add(rest.CORSResponseFilter.class);
+        resources.add(rest.KwetterREST.class);        
     }
 }

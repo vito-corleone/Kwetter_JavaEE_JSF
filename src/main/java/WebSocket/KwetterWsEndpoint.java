@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 import javax.websocket.CloseReason;
+import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -23,12 +24,12 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author Vito
  */
-@ServerEndpoint(
+@ServerEndpoint (
         value = "/endpoint",
         encoders = JsonEncoder.class,
         decoders = JsonDecoder.class,
         configurator = HttpSessionProvider.class)
-public class KwetterWsEndpoint {
+public class KwetterWsEndpoint{
 
     private static final Logger LOG = Logger.getLogger(KwetterWsEndpoint.class.toString());
 
@@ -40,7 +41,6 @@ public class KwetterWsEndpoint {
     private static final EchoBean ECHO_BEAN;
 
     static {
-//        final String name = "ws://localhost:8080/Kwetter/endpoint";
           final String name = "java:global/Kwetter/EchoBean";        
         try {
             ECHO_BEAN = (EchoBean) InitialContext.doLookup(name);
