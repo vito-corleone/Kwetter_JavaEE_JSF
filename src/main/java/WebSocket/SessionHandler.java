@@ -35,7 +35,7 @@ public class SessionHandler implements Serializable {
         for (Map.Entry entry : socketSessions.entrySet()) {
             if (sessionId.equals(entry.getValue())) {
                 emailAddress = entry.getKey().toString();
-                break; //breaking because its one to one map
+                break; 
             }
         }
         if (!emailAddress.isEmpty()) {

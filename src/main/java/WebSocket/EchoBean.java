@@ -30,10 +30,13 @@ public class EchoBean {
     public void send(Session session, Posting posting, int repeats, long delay, double delayMultiplier ){
         try {
             synchronized(session){
-                session.getBasicRemote().sendObject(posting);
+                //session.getBasicRemote().sendObject(posting);
+                
+                // ASYNC volgens RemoteEndpoint.Async
+                session.getAsyncRemote().sendObject(posting);
             }
             Thread.sleep(delay);
-        } catch (InterruptedException | IOException | EncodeException ex) {
+        } catch (InterruptedException ex) {
             throw new IllegalStateException(ex);
         }
 //        if(1<repeats){
