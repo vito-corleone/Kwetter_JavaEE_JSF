@@ -14,6 +14,7 @@ import com.google.common.hash.Hashing;
 import dto.CommentDTO;
 import dto.PostingDTO;
 import dto.UserDTO;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,10 +25,15 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.modelmapper.ModelMapper;
@@ -48,18 +54,67 @@ public class KwetterREST {
 
     @Inject
     private PostingService postingService;
-    
+
     @Inject
     private JMSService jmsService;
 
-    @Context
-    private UriInfo context;
-
-
+//    @Context
+//    private UriInfo context;
     /**
      * Creates a new instance of GenericResource
      */
     public KwetterREST() {
+    }
+
+    // ********************************************** Added methods according HATEOS *************************************************************
+    @GET
+    @Path("moderator/user/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("id") String id) {
+        Long userId = Long.parseLong(id);
+        User foundUser = userService.find(userId);
+        String getUser = Link.fromUri("http://localhost:8080/Kwetter/webresources/rest/moderator/user/" + foundUser.getId()).rel("self").type("GET").build().toString();
+        Link postUser = Link.fromUri("http://localhost:8080/Kwetter/webresources/rest/moderator/user/" + foundUser.getId()).rel("self").type("POST").build();
+        Link deleteUser = Link.fromUri("http://localhost:8080/Kwetter/webresources/rest/moderator/user/" + foundUser.getId()).rel("self").type("DELETE").build();
+        foundUser.addResource(getUser);
+        foundUser.addResource(postUser.toString());
+        foundUser.addResource(deleteUser.toString());
+        foundUser.setThePeopleThatFollowMe(new ArrayList<User>());
+        foundUser.setThePeopleThatIFollow(new ArrayList<User>());
+        return foundUser;
+    }
+
+    @POST
+    @Path("moderator/user/{id}")
+    //s@Consumes(MediaType.APPLICATION_JSON)
+    public User postUser(@PathParam("id") String id, @FormParam("emailAddress") String emailAddress, @FormParam("name") String name, @FormParam("bio") String bio, @FormParam("location") String location, @FormParam("website") String website, @FormParam("userrole") String userrole) {
+        Long userId = Long.parseLong(id);
+        User foundUser = userService.find(userId);
+        if (foundUser.getEmailAddress().equals(emailAddress)) {
+            foundUser.setName(name);
+            foundUser.setBio(bio);
+            foundUser.setLocation(location);
+            foundUser.setWebsite(website);
+            foundUser.setUserRole(userrole);
+            userService.edit(foundUser);
+        }
+        return foundUser;
+    }
+
+    @DELETE
+    @Path("moderator/user/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteUser(@PathParam("id") String id) {
+        Long userId = Long.parseLong(id);
+        User foundUser = userService.find(userId);
+        if (foundUser != null) {
+            userService.remove(userId);
+        }
+        foundUser = userService.find(userId);
+        if (foundUser == null) {
+            return "{\"Result\":\"Succes\"}";
+        }
+        return "{\"Result\":\"False\"}";
     }
 
     // ********************************************** PUBLIC METHODS - NO AUTHORIZATION *************************************************************
@@ -87,10 +142,10 @@ public class KwetterREST {
         List<Anon_Posting> postings = jmsService.getAllAnonPostings();
         Collections.sort(postings, Collections.reverseOrder());
         int i = 0;
-        for(Anon_Posting posting : postings){
+        for (Anon_Posting posting : postings) {
             messages.add(posting.getAuthor() + ": " + posting.getContent() + " | ");
             i++;
-            if(i >= 10){
+            if (i >= 10) {
                 break;
             }
         }
@@ -295,20 +350,20 @@ public class KwetterREST {
         return foundUser;
     }
 
-    @GET
-    @Path("/editUser/{emailAddress}/{name}/{bio}/{location}/{website}/{userrole}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String editUser(@PathParam("emailAddress") String emailAddress, @PathParam("name") String name, @PathParam("bio") String bio, @PathParam("location") String location, @PathParam("website") String website, @PathParam("userrole") String userrole) {
-        User foundUser = userService.find(emailAddress);
-        foundUser.setName(name);
-        foundUser.setBio(bio);
-        foundUser.setLocation(location);
-        foundUser.setWebsite(website);
-        foundUser.setUserRole(userrole);
-        userService.edit(foundUser);
-        return "{\"Result\":\"Succes\"}";
-    }
-
+//    @GET
+//    @Path("/editUser/{emailAddress}/{name}/{bio}/{location}/{website}/{userrole}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String editUser(@PathParam("emailAddress") String emailAddress, @PathParam("name") String name, @PathParam("bio") String bio, @PathParam("location") String location, @PathParam("website") String website, @PathParam("userrole") String userrole) {
+//        // change this working to work with post
+//        User foundUser = userService.find(emailAddress);
+//        foundUser.setName(name);
+//        foundUser.setBio(bio);
+//        foundUser.setLocation(location);
+//        foundUser.setWebsite(website);
+//        foundUser.setUserRole(userrole);
+//        userService.edit(foundUser);
+//        return "{\"Result\":\"Succes\"}";
+//    }
     @GET
     @Path("/removePost/{postID}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -317,14 +372,13 @@ public class KwetterREST {
         return "{\"Result\":\"Succes\"}";
     }
 
-    @GET
-    @Path("/removeUser/{userId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String removeUser(@PathParam("userId") String userId) {
-        userService.remove(Long.valueOf(userId));
-        return "{\"Result\":\"Succes\"}";
-    }
-
+//    @GET
+//    @Path("/removeUser/{userId}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String removeUser(@PathParam("userId") String userId) {
+//        userService.remove(Long.valueOf(userId));
+//        return "{\"Result\":\"Succes\"}";
+//    }
     @GET
     @Path("/getAllUsers/")
     @Produces(MediaType.APPLICATION_JSON)

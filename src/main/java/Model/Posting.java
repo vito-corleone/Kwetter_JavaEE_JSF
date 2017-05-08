@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -48,7 +49,9 @@ public class Posting implements Serializable, Comparable<Posting> {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments;
     private Long nextCommentId;
-
+    
+//    private Link self;
+    
     public Posting() {
     }
 
@@ -164,4 +167,14 @@ public class Posting implements Serializable, Comparable<Posting> {
     public int compareTo(Posting o) {
         return getDate().compareTo(o.getDate());
     }
+
+//    public Link getSelf() {
+//        return self;
+//    }
+//
+//    public void setSelf(Link self) {
+//        this.self = self;
+//    }
+    
+    
 }

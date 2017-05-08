@@ -7,11 +7,16 @@ package dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.core.Link;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import rest.KwetterREST;
 
 /**
  *
  * @author Vito Corleone
  */
+
 public class UserDTO {
 
     private Long id;
@@ -25,12 +30,14 @@ public class UserDTO {
         
     public UserDTO(String name, String emailAddress, String password) {
         this.name = name;
-        this.emailAddress = emailAddress;        
+        this.emailAddress = emailAddress;    
     }
 
     public UserDTO() {
 
     }
+
+  
 
     public String getUserRole() {
         return userRole;

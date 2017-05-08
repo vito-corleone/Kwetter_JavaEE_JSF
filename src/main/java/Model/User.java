@@ -19,13 +19,19 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.ws.rs.core.Link;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import rest.KwetterREST;
 
 /**
  *
  * @author Vito Corleone
  */
-@XmlRootElement
 @Entity
 @NamedQueries({
     @NamedQuery(name = "User.getAll", query = "select u from User as u")
@@ -34,6 +40,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     ,
     @NamedQuery(name = "User.findByID", query = "select u from User as u where u.id = :userId")
 })
+//@InjectLink(
+//            resource = KwetterREST.class,
+//            style = Style.ABSOLUTE,
+//            rel = "self",
+//            bindings = @Binding(name = "id", value = "${instance.id}"),
+//            method = "get"
+//    )
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,6 +73,8 @@ public class User implements Serializable {
 
     private String password;
 
+    private transient List<String> resources = new ArrayList<>();
+
     // empty constructor
     public User() {
 
@@ -79,6 +94,20 @@ public class User implements Serializable {
     }
 
     // getters and setters
+    public List<String> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<String> resources) {
+        this.resources = resources;
+    }
+
+    public void addResource(String resource) {
+        this.resources.add(resource);
+        System.out.println("Model.User.addResource()" + resource);
+        System.out.println("Model.User.addResource()" + this.resources.size());
+    }
+
     public List<User> getThePeopleThatIFollow() {
         return peopleThatIFollow;
     }
@@ -255,4 +284,11 @@ public class User implements Serializable {
         return false;
     }
 
+//    public Link getSelf() {
+//        return self;
+//    }
+//
+//    public void setSelf(Link self) {
+//        this.self = self;
+//    }
 }

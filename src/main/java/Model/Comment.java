@@ -14,7 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
+import javax.ws.rs.core.Link;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import rest.KwetterREST;
 
 /**
  *
@@ -103,5 +107,15 @@ public class Comment implements Serializable {
         return "Model.Comment[ id=" + id + " ]";
     }
 
+//    public Link getSelf() {
+//        return self;
+//    }
+//
+//    public void setSelf(Link self) {
+//        this.self = self;
+//    }
+
+    
+    
     
 }
