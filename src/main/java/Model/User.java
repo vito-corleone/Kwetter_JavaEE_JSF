@@ -284,11 +284,4 @@ public class User implements Serializable {
         return false;
     }
 
-//    public Link getSelf() {
-//        return self;
-//    }
-//
-//    public void setSelf(Link self) {
-//        this.self = self;
-//    }
 }
